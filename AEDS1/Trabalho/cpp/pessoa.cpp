@@ -2,17 +2,20 @@
 #include "data.h"
 #include <iostream>
 
-Person::Person(std::string name, int age, float wage, Date bday) {
+Person::Person(std::string name, int age, Date bday) {
     this->name = name;
     this->age = age;
-    this->wage = wage;
-    this->bday = bday;
+    this->bday = bday; // FIX:: THIS EVENTUALLY
+}
+Person::Person() {
+    this->name = "";
+    this->age = 0;
+    this->bday = Date();
 }
 
 void Person::operator=(Person const& p) {
     this->name = p.name;
     this->age = p.age;
-    this->wage = p.wage;
     this->bday = p.bday;
 }
 
@@ -29,13 +32,22 @@ bool Person::print() {
 
 People::People() {
     this->size = 0;
-    this->p = NULL;
+    this->p = Person();
+    this->next = NULL;
+    this->prev = NULL;
 }
 
-bool People::add_person(Person* np) {
+bool People::add_person(Person np) {
     try {
-        this->p[this->size] = *np;
+        this->p = np;
         this->size++;
+        for(int i = 0; i < this->size; i++) {
+            if (this->next == NULL) {
+                // there is no one ahead, so point it towards this new instance
+                this->next = *this;
+                this->prev = ;
+            }
+        }
         return true;
     } catch(...) {
         return false;

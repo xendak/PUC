@@ -7,11 +7,13 @@ class Person {
     private:
         std::string name;
         int age;
-        float wage;
         Date bday;
 
     public:
-        Person(std::string name, int age, float wage, Date bday);
+        Person();
+        Person(std::string name, int age, Date bday);
+        ~Person();
+
         bool print();
         void operator=(Person const& np);
         /*bool delete_person();*/
@@ -19,15 +21,21 @@ class Person {
 
 };
 
+// tentativa de simular <LIST>
 class People {
     private:
-        Person* p;
-        int size;
+        Person p;
+        void* next;
+        void* prev;
+        static int size;
 
     public:
         People();
-        bool add_person(Person* p);
-        bool delete_person();
+        People(Person p);
+        ~People();
+
+        bool add_person(Person p);
+        bool delete_person(); // acccept some kind of search eventually
         Person* search_person();
 };
 

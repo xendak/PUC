@@ -10,7 +10,10 @@ class Date {
         int year;
 
     public:
+        Date();
         Date(int day, int month, int year);
+        ~Date();
+
         bool check_date();
         bool change_date();
         std::string list_month_by_name();
