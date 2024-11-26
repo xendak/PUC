@@ -4,8 +4,6 @@
 
 int row, col;
 
-void print_matrix(char m[][col]);
-
 int check_left(char m[][col], int currRow, int pos) {
     int len = 0;
     int left = pos - 1;
@@ -18,10 +16,8 @@ int check_left(char m[][col], int currRow, int pos) {
     }
 
     m[currRow][left - len] = 'o';
-    if(currRow + 1 < row)
-        m[currRow + 1][left - len] = 'o';
-    if(currRow + 2 < row)
-        m[currRow + 2][left - len] = 'o';
+    m[currRow + 1][left - len] = 'o';
+    m[currRow + 2][left - len] = 'o';
     return len;
 }
 
@@ -37,10 +33,8 @@ int check_right(char m[][col], int currRow, int pos) {
     }
 
     m[currRow][right + len] = 'o';
-    if(currRow + 1 < row)
-        m[currRow + 1][right + len] = 'o';
-    if(currRow + 2 < row)
-        m[currRow + 2][right + len] = 'o';
+    m[currRow + 1][right + len] = 'o';
+    m[currRow + 2][right + len] = 'o';
     return len;
 }
 
@@ -80,17 +74,21 @@ void let_it_fall(char m[][col]) {
     }
 }
 
+void print_matrix(char m[][col]) {
+    for(int i = 0; i < row; i++) {
+        for(int j = 0; j < col; j++)
+            printf("%c", m[i][j]);
+        printf("\n");
+    }
+}
+
 int main() {
     row = col = 0;
     scanf("%d %d\n", &row, &col);
 
     char board[row][col];
     for(int i = 0; i < row; i++) 
-        for (int j = 0; j < col; j++) 
-            if(j == col-1)
-                scanf("%c\n", &board[i][j]);
-            else
-                scanf("%c", &board[i][j]);
+        scanf("%s\n", board[i]);
         
 
     let_it_fall(board);
@@ -98,10 +96,3 @@ int main() {
     return 0;
 }
 
-void print_matrix(char m[][col]) {
-    for(int i = 0; i < row; i++) { 
-        for (int j = 0; j < col; j++) 
-            printf("%c", m[i][j]);
-        printf("\n");
-    }
-}
