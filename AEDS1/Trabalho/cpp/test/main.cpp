@@ -1,88 +1,111 @@
 #include <iostream>
-#include <stdio.h>
 
 class List {
     private:
-        List* next;
-        List* prev;
+        struct Node {
+            Node* next;
+            Node* prev;
+            int data;
+
+            Node(int val);
+        };
+        typedef struct Node* nodeptr;
+
+        Node* head;
+        int size;
 
     public:
-        int size;
         int num;
 
-        /*List();*/
+        List();
         List(int obj);
         ~List();
 
-        bool push(int n);
-        bool pop(int n);
+        bool push(int obj);
+        bool pop();
+        bool pop_by(int obj);
         void print();
 };
 
-/**/
-/*List::List() {*/
-/*    this->next = NULL;*/
-/*    this->prev = NULL;*/
-/*    this->size = 1;*/
-/*}*/
-/**/
+// WITH tail pointer
+
+
+List::Node::Node(int val) {
+    this->data = val;
+    this->next = nullptr;
+    this->prev = nullptr;
+}
+
+List::List() {
+    this->head = nullptr;
+    this->size = 0;
+}
 
 List::List(int obj) {
-    this->next = NULL;
-    this->prev = NULL;
-    this->size = 1;
-    this->num = obj;
+   head = new Node(obj);
+   size = 1;
 }
 
 List::~List() {
-    List* curr = this;
-    for (int i = 0; i < this->size; i++) {
-        if (this->next != NULL)
-            curr->next = this->next;
-        delete this->next;
-        delete this->prev;
+    nodeptr curr = head;
+    while (curr != nullptr) {
+        nodeptr next = curr->next;
+        delete curr;
+        curr = next;
     }
-    delete this;
-    delete curr;
 }
 
-bool List::push(int n) {
-    List* to_be_pushed = new List(n);
-    if (to_be_pushed == NULL) { return false; }
-    List* curr = this;
-    if (curr == NULL) { return false; }
+bool List::push(int obj) {
+    nodeptr newNode = new Node(obj);
+    bool res = false;
+    if (newNode != nullptr) { 
 
-    this->prev = to_be_pushed;
+        // increment one since we already created a new node regardless
+        // possibly cant fail anymore?
+        size++;
 
-    do {
-        if (curr->next == NULL)  {
-            // add new element here
-            this->next = to_be_pushed;
-            to_be_pushed->prev = this;
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            nodeptr curr = head;
+            while (curr->next) {
+                curr = curr->next;
+            }
+            curr->next = newNode;
+            newNode->prev = curr;
+            head->prev = newNode;
         }
-        if (this->next != NULL)
-            curr = this->next;
-    } while(curr->next != NULL);
-    this->size++;
-    return true;
+        
+        res = true;
+    }
+    return res;
+}
+
+bool List::pop() {
+
 }
 
 void List::print() {
-    /*List* curr = this;*/
+    nodeptr curr = head;
     int i = 0;
+    std::cout << "Size: " << size << std::endl;
 
-    std::cout << "size: " << this->size << std::endl;
-    for (List* curr = this; curr->next != NULL ; curr = curr->next) {
-        std::cout << i << " = " << curr->num << std::endl;
+    while(curr) {
+        std::cout << i << ": " << curr->data << std::endl;
+        curr = curr->next;
         i++;
-        /*curr = this->next;*/
     }
+    std::cout << "Head: " << head->data << "\tTail: " << head->prev->data << std::endl;
 }
 
 int main() {
     List testing = List(7);
     testing.push(5);
+    testing.push(13);
     testing.print();
+    testing.push(25);
+    testing.print();
+    std::cout << "does it reach here" << std::endl;
 
     return 0;
 }
