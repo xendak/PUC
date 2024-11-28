@@ -1,20 +1,6 @@
-Size: 3
-0: 5
-1: 7
-2: 2
-Head: 5	Tail: 2
-Deleting: 2
-Head: 5
-New: Head->prev: 7
-New: Head->prev->next: 5
-New: Head->next->next: 5
-Size: 2
-0: 5
-1: 7
-Head: 5	Tail: 7
-Deleting: 7
-Head: 5
-New: Head->prev: 5
-New: Head->prev->next: 5
-New: Head->next->next: 5
-Size: 0
+Size: 3	||	0: 5	1: 7	2: 2	
+Size: 0	||	
+Size: 3	||	0: 5	1: 7	2: 2	
+Size: 2	||	0: 5	1: 2	
+Size: 1	||	0: 5	
+Size: 0	||	

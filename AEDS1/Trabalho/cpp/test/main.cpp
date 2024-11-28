@@ -24,12 +24,10 @@ class List {
         // LIFO
         bool push(int obj);
         bool pop();
-        bool remove_by_valor(int obj);
+        bool remove_by_index(int i);
+        bool remove_by_valor(int val);
         void print();
 };
-
-// WITH tail pointer
-
 
 List::Node::Node(int val) {
     data = val;
@@ -44,57 +42,70 @@ List::List() {
 
 List::List(int obj) {
    head = new Node(obj);
+   head->next = head;
+   head->prev = head;
    size = 1;
 }
 
 List::~List() {
-    if (size == 1) {
-        delete head;
-    } else {
-        nodeptr curr = head;
-        while (size) {
-            nodeptr next = curr->next;
-            delete curr;
-            curr = next;
-            size--;
-        }
-        /*delete head;*/
-    }
+    while(size)
+        pop();
 }
 
 bool List::pop() {
-    if (size < 1) { return false; }
+    bool res = false;
+    if (size < 1) { res = false; }
     else if (size == 1) {
-        head->prev = nullptr;
-        head->next = nullptr;
         delete head;
-
+        head = nullptr;
+        res = true;
     } else {
+        // get the last(tail) object, make its pointers next/prev point through the tail, delete tail.
         nodeptr tail = head->prev;
-        if (tail == nullptr) { return false; }
-
-        std::cout << "Deleting: " << tail->data << std::endl;
-        tail->next = nullptr;
         head->prev = tail->prev;
-        std::cout << "Head: " << head->data << std::endl;
-        std::cout << "New: Head->prev: " << head->prev->data << std::endl;
-        tail->prev = nullptr;
         head->prev->next = head;
-        std::cout << "New: Head->prev->next: " << head->prev->next->data << std::endl;
-        std::cout << "New: Head->next->next: " << head->next->next->data << std::endl;
-        /*tail->prev->next = head;*/
         delete tail;
+        res = true;
     }
 
-    size--;
-    return true;
+    if (res) size--;
+
+    return res;
 }
+
+bool List::remove_by_valor(int val) {
+    bool res = false;
+    if (size == 1 && head->data == val) { 
+        delete head;
+        head = nullptr;
+        res = true;
+    }
+    else if (size > 1) {
+        nodeptr curr = head;
+        do {
+            if (val == curr->data) {
+                /*if (curr == head) // special case of fisrt pointer*/
+                /*    head = head->next;*/
+                curr->next->prev = curr->prev;
+                curr->prev->next = curr->next;
+                delete curr;
+                res = true;
+            } else {
+                curr = curr->next;
+            }
+        } while(curr != head && !res);
+    }
+    if (res)
+        size--;
+    // if errror catching, val not found.
+    return res;
+}
+
 
 bool List::push(int obj) {
     nodeptr newNode = new Node(obj);
     bool res = false;
     if (newNode != nullptr) { 
-
         // increment one since we already created a new node regardless
         // possibly cant fail anymore?
         size++;
@@ -104,23 +115,13 @@ bool List::push(int obj) {
             head->next = head;
             head->prev = head;
         } else {
-            nodeptr curr = head;
-            while (curr->next != head) {
-                curr = curr->next;
-            }
-            /*std::cout << "Curr: " << curr->data << "\t";*/
-            /*std::cout << "Curr->next: " << curr->next->data << "\t";*/
-            /*std::cout << "Curr->prev: " << curr->prev->data << "\t" << std::endl;*/
-            curr->next = newNode;
-            newNode->prev = curr;
-            head->prev = newNode;
+            // using tail is O(1), while my old method was O(n)....
+            nodeptr tail = head->prev;
+            tail->next = newNode;
+            newNode->prev = tail;
             newNode->next = head;
-            /*std::cout << "Curr: " << curr->data << "\t";*/
-            /*std::cout << "Curr->next: " << curr->next->data << "\t";*/
-            /*std::cout << "Curr->prev: " << curr->prev->data << "\t" << std::endl;*/
-
+            head->prev = newNode;
         }
-        
         res = true;
     }
     return res;
@@ -128,14 +129,15 @@ bool List::push(int obj) {
 
 void List::print() {
     nodeptr curr = head;
-    std::cout << "Size: " << size << std::endl;
+    std::cout << "Size: " << size << "\t||\t";
 
-    for(int i = 0; i < size; i++) {
-        std::cout << i << ": " << curr->data << std::endl;
-        curr = curr->next;
+    if (size) {
+        for(int i = 0; i < size; i++) {
+            std::cout << i << ": " << curr->data << "\t";
+            curr = curr->next;
+        }
     }
-    if (size)
-        std::cout << "Head: " << head->data << "\tTail: " << head->prev->data << std::endl;
+    std::cout << std::endl;
 }
 
 int main() {
@@ -143,23 +145,21 @@ int main() {
     testing.push(5);
     testing.push(7);
     testing.push(2);
-    /*testing.push(5);*/
-    /*testing.push(22);*/
-    /*testing.print();*/
-    /*testing.push(13);*/
-    /*testing.print();*/
-    /*testing.push(25);*/
-    /*testing.print();*/
-    testing.print();
-    testing.pop();
     testing.print();
     testing.pop();
     testing.pop();
+    testing.pop();
     testing.print();
-    // use after free?
-    /*testing.push(2);*/
-    /*testing.print();*/
-    /*std::cout << "does it reach here" << std::endl;*/
+    testing.push(5);
+    testing.push(7);
+    testing.push(2);
+    testing.print();
+    testing.remove_by_valor(7);
+    testing.print();
+    testing.remove_by_valor(2);
+    testing.print();
+    testing.remove_by_valor(5);
+    testing.print();
 
     return 0;
 }
