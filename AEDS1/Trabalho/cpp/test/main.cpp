@@ -24,7 +24,7 @@ class List {
         // LIFO
         bool push(int obj);
         bool pop();
-        bool remove_by_index(int i);
+        bool remove_by_index(int index);
         bool remove_by_valor(int val);
         void print();
 };
@@ -73,6 +73,35 @@ bool List::pop() {
     return res;
 }
 
+bool List::remove_by_index(int index) {
+    bool res = false;
+    if (index > size || index < 0) { res = false; }
+    else if (size == 1 && index == 0) {
+        delete head;
+        head = nullptr;
+        res = true;
+    } else if (size > 1) {
+        nodeptr curr = head;
+        int i = 0;
+        while (!res) {
+            if (index == i) {
+                if (index == 0) { head = head->next; }
+                curr->next->prev = curr->prev;
+                curr->prev->next = curr->next;
+                delete curr;
+                res = true;
+            } else {
+                curr = curr->next;
+                i++;
+            }
+        }
+    }
+
+    if (res)
+        size--;
+    return res;
+}
+
 bool List::remove_by_valor(int val) {
     bool res = false;
     if (size == 1 && head->data == val) { 
@@ -84,8 +113,7 @@ bool List::remove_by_valor(int val) {
         nodeptr curr = head;
         do {
             if (val == curr->data) {
-                /*if (curr == head) // special case of fisrt pointer*/
-                /*    head = head->next;*/
+                if (head == curr) { head = head->next; }
                 curr->next->prev = curr->prev;
                 curr->prev->next = curr->next;
                 delete curr;
@@ -154,11 +182,19 @@ int main() {
     testing.push(7);
     testing.push(2);
     testing.print();
+    testing.remove_by_valor(5);
+    testing.remove_by_valor(2);
     testing.remove_by_valor(7);
     testing.print();
-    testing.remove_by_valor(2);
+    testing.push(5);
+    testing.push(7);
+    testing.push(2);
     testing.print();
-    testing.remove_by_valor(5);
+    testing.remove_by_index(0);
+    testing.print();
+    testing.remove_by_index(1);
+    testing.print();
+    testing.remove_by_index(0);
     testing.print();
 
     return 0;
