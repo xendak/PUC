@@ -21,9 +21,10 @@ class List {
         List(int obj);
         ~List();
 
+        // LIFO
         bool push(int obj);
         bool pop();
-        bool pop_by(int obj);
+        bool remove_by_valor(int obj);
         void print();
 };
 
@@ -31,14 +32,14 @@ class List {
 
 
 List::Node::Node(int val) {
-    this->data = val;
-    this->next = nullptr;
-    this->prev = nullptr;
+    data = val;
+    next = nullptr;
+    prev = nullptr;
 }
 
 List::List() {
-    this->head = nullptr;
-    this->size = 0;
+    head = nullptr;
+    size = 0;
 }
 
 List::List(int obj) {
@@ -47,12 +48,46 @@ List::List(int obj) {
 }
 
 List::~List() {
-    nodeptr curr = head;
-    while (curr != nullptr) {
-        nodeptr next = curr->next;
-        delete curr;
-        curr = next;
+    if (size == 1) {
+        delete head;
+    } else {
+        nodeptr curr = head;
+        while (size) {
+            nodeptr next = curr->next;
+            delete curr;
+            curr = next;
+            size--;
+        }
+        /*delete head;*/
     }
+}
+
+bool List::pop() {
+    if (size < 1) { return false; }
+    else if (size == 1) {
+        head->prev = nullptr;
+        head->next = nullptr;
+        delete head;
+
+    } else {
+        nodeptr tail = head->prev;
+        if (tail == nullptr) { return false; }
+
+        std::cout << "Deleting: " << tail->data << std::endl;
+        tail->next = nullptr;
+        head->prev = tail->prev;
+        std::cout << "Head: " << head->data << std::endl;
+        std::cout << "New: Head->prev: " << head->prev->data << std::endl;
+        tail->prev = nullptr;
+        head->prev->next = head;
+        std::cout << "New: Head->prev->next: " << head->prev->next->data << std::endl;
+        std::cout << "New: Head->next->next: " << head->next->next->data << std::endl;
+        /*tail->prev->next = head;*/
+        delete tail;
+    }
+
+    size--;
+    return true;
 }
 
 bool List::push(int obj) {
@@ -66,14 +101,24 @@ bool List::push(int obj) {
 
         if (head == nullptr) {
             head = newNode;
+            head->next = head;
+            head->prev = head;
         } else {
             nodeptr curr = head;
-            while (curr->next) {
+            while (curr->next != head) {
                 curr = curr->next;
             }
+            /*std::cout << "Curr: " << curr->data << "\t";*/
+            /*std::cout << "Curr->next: " << curr->next->data << "\t";*/
+            /*std::cout << "Curr->prev: " << curr->prev->data << "\t" << std::endl;*/
             curr->next = newNode;
             newNode->prev = curr;
             head->prev = newNode;
+            newNode->next = head;
+            /*std::cout << "Curr: " << curr->data << "\t";*/
+            /*std::cout << "Curr->next: " << curr->next->data << "\t";*/
+            /*std::cout << "Curr->prev: " << curr->prev->data << "\t" << std::endl;*/
+
         }
         
         res = true;
@@ -81,31 +126,40 @@ bool List::push(int obj) {
     return res;
 }
 
-bool List::pop() {
-
-}
-
 void List::print() {
     nodeptr curr = head;
-    int i = 0;
     std::cout << "Size: " << size << std::endl;
 
-    while(curr) {
+    for(int i = 0; i < size; i++) {
         std::cout << i << ": " << curr->data << std::endl;
         curr = curr->next;
-        i++;
     }
-    std::cout << "Head: " << head->data << "\tTail: " << head->prev->data << std::endl;
+    if (size)
+        std::cout << "Head: " << head->data << "\tTail: " << head->prev->data << std::endl;
 }
 
 int main() {
-    List testing = List(7);
+    List testing = List();
     testing.push(5);
-    testing.push(13);
+    testing.push(7);
+    testing.push(2);
+    /*testing.push(5);*/
+    /*testing.push(22);*/
+    /*testing.print();*/
+    /*testing.push(13);*/
+    /*testing.print();*/
+    /*testing.push(25);*/
+    /*testing.print();*/
     testing.print();
-    testing.push(25);
+    testing.pop();
     testing.print();
-    std::cout << "does it reach here" << std::endl;
+    testing.pop();
+    testing.pop();
+    testing.print();
+    // use after free?
+    /*testing.push(2);*/
+    /*testing.print();*/
+    /*std::cout << "does it reach here" << std::endl;*/
 
     return 0;
 }
