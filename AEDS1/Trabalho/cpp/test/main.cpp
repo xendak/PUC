@@ -1,13 +1,14 @@
 #include <iostream>
 
+template<typename T>
 class List {
     private:
         struct Node {
             Node* next;
             Node* prev;
-            int data;
+            T data;
 
-            Node(int val);
+            Node(T val);
         };
         typedef struct Node* nodeptr;
 
@@ -15,44 +16,47 @@ class List {
         int size;
 
     public:
-        int num;
-
         List();
-        List(int obj);
+        List(T obj);
         ~List();
 
         // LIFO
-        bool push(int obj);
+        bool push(T obj);
         bool pop();
         bool remove_by_index(int index);
-        bool remove_by_valor(int val);
+        bool remove_by_valor(T val);
         void print();
 };
 
-List::Node::Node(int val) {
+template <typename T>
+List<T>::Node::Node(T val) {
     data = val;
     next = nullptr;
     prev = nullptr;
 }
 
-List::List() {
+template <typename T>
+List<T>::List() {
     head = nullptr;
     size = 0;
 }
 
-List::List(int obj) {
+template <typename T>
+List<T>::List(T obj) {
    head = new Node(obj);
    head->next = head;
    head->prev = head;
    size = 1;
 }
 
-List::~List() {
+template <typename T>
+List<T>::~List() {
     while(size)
         pop();
 }
 
-bool List::pop() {
+template <typename T>
+bool List<T>::pop() {
     bool res = false;
     if (size < 1) { res = false; }
     else if (size == 1) {
@@ -73,7 +77,8 @@ bool List::pop() {
     return res;
 }
 
-bool List::remove_by_index(int index) {
+template <typename T>
+bool List<T>::remove_by_index(int index) {
     bool res = false;
     if (index > size || index < 0) { res = false; }
     else if (size == 1 && index == 0) {
@@ -102,7 +107,8 @@ bool List::remove_by_index(int index) {
     return res;
 }
 
-bool List::remove_by_valor(int val) {
+template <typename T>
+bool List<T>::remove_by_valor(T val) {
     bool res = false;
     if (size == 1 && head->data == val) { 
         delete head;
@@ -130,7 +136,8 @@ bool List::remove_by_valor(int val) {
 }
 
 
-bool List::push(int obj) {
+template <typename T>
+bool List<T>::push(T obj) {
     nodeptr newNode = new Node(obj);
     bool res = false;
     if (newNode != nullptr) { 
@@ -155,7 +162,8 @@ bool List::push(int obj) {
     return res;
 }
 
-void List::print() {
+template <typename T>
+void List<T>::print() {
     nodeptr curr = head;
     std::cout << "Size: " << size << "\t||\t";
 
@@ -169,7 +177,7 @@ void List::print() {
 }
 
 int main() {
-    List testing = List();
+    List<int> testing;
     testing.push(5);
     testing.push(7);
     testing.push(2);
