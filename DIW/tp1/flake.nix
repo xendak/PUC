@@ -21,7 +21,7 @@
             # Packages included in the environment
             buildInputs = [ 
               node
-              # pkgs.nodePackages.json-server
+              pkgs.nodePackages.json-server
               pkgs.nodePackages.vscode-langservers-extracted
               pkgs.nodePackages.prettier
 
