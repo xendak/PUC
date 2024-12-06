@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Series Details - TV Series Portal</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <h1 class="main-title">
+          <span class="tv-icon">📺</span>
+          <a href="/">TV Series Portal</a>
+        </h1>
+        <nav class="nav-menu">
+          <a href="/" class="nav-link">
+            <i class="fas fa-home"></i> <!-- House icon -->
+          </a>
+          <a href="/explorer.html" class="nav-link">
+            <i class="fas fa-search"></i> <!-- Search icon -->
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main role="main">
+      <section class="section" id="series-overview">
+        <div class="series-info-box">
+          <img id="series-poster" class="series-poster" src="" alt="Series Poster">
+          <div class="series-info">
+            <h1 id="series-title">Series Title</h1>
+            <p id="series-description">Description of the series goes here.</p>
+            <p><strong>Rating:</strong> <span id="series-rating">0</span></p>
+            <p><strong>Airing Date:</strong> <span id="series-air-date">N/A</span></p>
+            <p><strong>Genres:</strong> <span id="series-genres">N/A</span></p>
+            <button class="favorite-btn" id="favorite-btn">
+              <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 3.98 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.02 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
+                </path>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="series-cast">
+        <h2 class="section-title">Elenco</h2>
+        <div id="cast-grid-container" class="cast-grid-container">
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/scripts/details.js"></script>
+    <script src="/assets/scripts/api.js"></script>
+  </body>
+</html>

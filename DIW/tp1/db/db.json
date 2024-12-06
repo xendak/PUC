@@ -1,0 +1,24 @@
+{
+  "profile": {
+    "id": 1,
+    "name": "John Doe",
+    "course": "Web Development",
+    "email": "john.doe@example.com",
+    "facebook": "https://facebook.com/johndoe",
+    "twitter": "https://twitter.com/johndoe",
+    "instagram": "https://instagram.com/johndoe",
+    "biography": "A passionate web developer with interest in modern technologies and frameworks."
+  },
+  "favorites": [
+    {
+      "id": "16d9",
+      "serieId": 247885,
+      "userId": 1
+    },
+    {
+      "id": "3b1b",
+      "serieId": 235484,
+      "userId": 1
+    }
+  ]
+}
