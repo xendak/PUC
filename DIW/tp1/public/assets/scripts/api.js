@@ -8,14 +8,15 @@ const api = {
     // TMDB API Calls
     async getPopularSeries(page = 1) {
         const response = await fetch(
-            `${TMDB_BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US&page=${page}`
+            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=vote_average.desc&vote_count.gte=200&include_adult=false`
         );
         return response.json();
     },
 
     async getNewSeries(page = 1) {
+        const today = new Date().toISOString().split('T')[0];
         const response = await fetch(
-            `${TMDB_BASE_URL}/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=${page}`
+            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=first_air_date.desc&include_adult=false&first_air_date.lte=${today}&vote_count.gte=1`
         );
         return response.json();
     },

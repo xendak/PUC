@@ -1,9 +1,12 @@
 :root {
-    --primary-color: #0d253f;
-    --secondary-color: #01b4e4;
-    --accent-color: #90cea1;
+    --primary-color: #282828;
+    --secondary-color: #6c9bbd;
+    --accent-color: #a1b56c;
     --text-color: #333;
+    --links: #ba8baf;
     --background-color: #f5f5f5;
+    --secondary-accent: #ab4642;
+    --inactive-text: #585858;
 }
 
 body {
@@ -17,8 +20,8 @@ body {
 /* Header Styles */
 .header {
     background-color: var(--primary-color);
-    color: white;
-    padding: 1rem;
+    color: var(--background-color);
+    padding: 0.4rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -31,7 +34,7 @@ body {
 }
 
 .main-title a {
-    color: white;
+    color: var(--background-color);
     text-decoration: none;
 }
 .main-title:hover a {
@@ -39,7 +42,7 @@ body {
 }
 
 .logo {
-    color: white;
+    color: var(--background-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -53,11 +56,11 @@ body {
 }
 
 .nav-link {
-    color: white; /* Default color */
-    text-decoration: none; /* Remove underline */
+    color: var(--background-color);
+    text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    font-size: 1.6rem; /* Adjust icon size */
+    font-size: 1.6rem;
     transition: color 0.3s, background-color 0.3s;
     display: flex;
     align-items: center;
@@ -65,10 +68,12 @@ body {
 }
 
 .nav-link:hover {
-    color: var(--secondary-color); /* Change icon color on hover */
-}/* Section Styles */
+    color: var(--secondary-color);
+}
+
+/* Section Styles */
 .section {
-    max-width: 1200px;
+    max-width: 80%;
     margin: 2rem auto;
     padding: 0 1rem;
 }
@@ -92,7 +97,6 @@ body {
     height: 2px;
     background-color: var(--secondary-color);
 }
-
 
 /* Popular Series Carousel */
 #popular-series {
@@ -132,7 +136,7 @@ body {
     right: 0;
     padding: 2rem;
     background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    color: white;
+    color: var(--background-color);
 }
 
 .carousel-caption h3 {
@@ -162,7 +166,7 @@ body {
 }
 
 .carousel-button:hover {
-    background: rgba(255,255,255,0.9);
+    background: var(--secondary-color);/*rgba(255,255,255,0.9);*/
 }
 
 .prev-button {
@@ -173,7 +177,6 @@ body {
     right: 20px;
 }
 
-
 /* New Series Grid */
 .series-grid {
     display: grid;
@@ -182,28 +185,33 @@ body {
     margin-top: 2rem;
 }
 
-/* Card Styles */
 .card {
-    background: white;
+    background: var(--background-color);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    /*width: 300px;*/
+    /*width: 50%;*/
+    /*box-shadow: 0 2px 4px rgba(0,0,0,0.1);*/
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
     transition: transform 0.3s;
     cursor: pointer;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+    transform: translateX(-5px);
 }
 
 .card-image {
     width: 100%;
     aspect-ratio: 2/3;
+    /*transform: scale(0.6);*/
+    /*height: auto;*/
+    /*height: 100px;*/
     object-fit: cover;
 }
 
 .card-content {
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .card-title {
@@ -233,12 +241,11 @@ body {
     display: flex;
     gap: 2rem;
     align-items: center;
-    /*max-width: 800px;*/
     transition: transform 0.3s ease;
 }
 
 .profile-card:hover {
-    transform: translateY(-5px);
+    transform: translateX(-1px);
 }
 
 .profile-avatar {
@@ -269,7 +276,7 @@ body {
 
 .profile-info p {
     margin: 0.5rem 0;
-    line-height: 1.5;
+    line-height: 1.8;
     font-size: 1rem;
     color: #666;
 }
@@ -277,28 +284,31 @@ body {
 #small-text {
     font-size: 0.8rem;
     color: #555;
+}
+
+#divisor {
+    margin-top: 0.7rem;
     border-top: 1px solid #ddd;
-    margin-top: 1rem;
-    padding-top: 0.5rem;
 }
 
 .social-links {
-    margin-top: 1rem;
+    padding-top: 0.2rem;
     display: flex;
     gap: 1rem;
 }
 
 .social-links a {
-    color: #007bff;
+    color: var(--links);
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-    color: #0056b3;
-    text-decoration: underline;
+    color: var(--secondary-color);
+    text-decoration: none;
 }
+
 /* Favorites Grid */
 .favorites-grid {
     display: grid;
@@ -391,29 +401,28 @@ body {
     align-self: flex-end;
     margin-top: -50px;
     border: none;
-    /*background: black;*/
     background: none;
-    color:gray;
+    color: var(--inactive-text);
     cursor: pointer;
 }
 
 .heart-icon {
     width: 36px;
     height: 36px;
-    fill: currentColor; /* Use the current text color */
-    transition: fill 0.3s ease; /* Smooth transition for color change */
+    fill: currentColor;
+    transition: fill 0.3s ease;
 }
 
 .favorite-btn.favorited {
-    color: red;
+    color: var(--secondary-accent);
 }
 
 .favorite-btn:hover {
-    color: #ff5961;
+    color: var(--secondary-accent);
 }
 
 .favorite-btn.favorited:hover {
-    color: gray;
+    color: var(--inactive-text);
 }
 
 /* Cast Grid */
@@ -425,7 +434,7 @@ body {
 }
 
 .cast-card {
-    background: white;
+    background: var(--background-color);
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -454,7 +463,6 @@ body {
 }
 
 /* Explorer Page */
-
 .search-input {
     width: 80%;
     padding: 0.8rem;
@@ -473,7 +481,7 @@ body {
     padding: 0.8rem 1.2rem;
     border: none;
     background-color: var(--secondary-color);
-    color: white;
+    color: var(--background-color);
     border-radius: 25px;
     font-size: 1rem;
     cursor: pointer;
@@ -499,6 +507,8 @@ body {
 .card-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    /*grid-template-columns: repeat(5, minmax(550px, 1fr)); /* Adjust min card width */*/
+    height: 50%;
     gap: 1rem;
     padding: 1rem;
 }
@@ -509,19 +519,19 @@ body {
     align-items: center;
     gap: 1rem;
     margin: 2rem auto;
-    visibility: visible; /* Ensures buttons are visible by default */
+    visibility: visible;
 }
 
 .pagination button {
     padding: 0.5rem 1rem;
     background-color: var(--secondary-color);
-    color: white;
+    color: var(--background-color);
     border: none;
     border-radius: 25px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s;
-    width: 100px; /* Ensures all buttons have the same width */
+    width: 100px;
     text-align: center;
 }
 

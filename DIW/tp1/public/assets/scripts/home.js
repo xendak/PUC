@@ -1,10 +1,49 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Load all sections
     await loadPopularSeries();
     await loadNewSeries();
     await loadFavorites();
+    await loadAuthorInfo();
 
 });
+
+async function loadAuthorInfo() {
+    const profile = await api.getProfile();
+    renderAuthorInfo(profile);
+}
+
+function renderAuthorInfo(profile) {
+    const authorInfoSection = document.getElementById("author-info");
+    if (!authorInfoSection) return;
+
+    authorInfoSection.innerHTML = `
+        <h2 class="section-title">Informações do Aluno</h2>
+        <div class="profile-card">
+          <img src="${profile.avatar}" alt="Photo" class="profile-avatar">
+          <div class="profile-info">
+            <h3>${profile.name}</h3>
+            <p id="divisor"<span class="divisor"></span></p>
+            <p><strong>Curso:</strong> ${profile.course}</p>
+            <p id="divisor"<span class="divisor"></span></p>
+            <p><strong>Disciplina:</strong> ${profile.classroom}</p>
+            <p id="divisor"<span class="divisor"></span></p>
+            <p id="small-text">${profile.biography}</p>
+            <p id="small-text">${profile.outro}</p>
+            <p id="divisor"<span class="divisor"></span></p>
+            <div class="social-links">
+              <a href="${profile.github}" target="_blank" class="social-link">
+                <i class="fab fa-github"></i>
+                GitHub
+              </a>
+              <span class="divisor"></span>
+              <a href="mailto:${profile.email}" class="social-link">
+                <i class="fas fa-envelope"></i>
+                Email
+              </a>
+            </div>
+          </div>
+        </div>
+    `;
+}
 
 // Modified carousel initialization function
 function initializeCarousel() {
@@ -121,7 +160,9 @@ async function loadNewSeries() {
     const gridContainer = document.createElement('div');
     gridContainer.className = 'series-grid';
 
-    results.slice(0, 5).forEach(series => {
+    const validSeries = results.filter(series => series.poster_path && series.overview);
+
+    validSeries.slice(0, 5).forEach(series => {
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `

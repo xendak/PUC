@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
@@ -10,15 +9,19 @@ function init() {
     };
 
     const searchForm = document.getElementById('search-form');
-    const prevPageButton = document.getElementById('prev-page');
-    const nextPageButton = document.getElementById('next-page');
+    const prevPageButtons = document.querySelectorAll('#prev-page');
+    const nextPageButtons = document.querySelectorAll('#next-page');
 
-    // Add event listeners
+    prevPageButtons.forEach((button) => {
+        button.addEventListener('click', () => handlePageBtn(state, "prev"));
+    });
+
+    nextPageButtons.forEach((button) => {
+        button.addEventListener('click', () => handlePageBtn(state, "next"));
+    });
+
     searchForm.addEventListener('submit', (event) => handleSearch(event, state));
-    prevPageButton.addEventListener('click', () => handlePageBtn(state, "prev"));
-    nextPageButton.addEventListener('click', () => handlePageBtn(state, "next"));
 
-    // Fetch and display default results (popular series)
     fetchDefaultResults(state);
 }
 
@@ -47,30 +50,6 @@ async function handleSearch(event, state) {
     renderResults(response.results, state);
 }
 
-async function handlePrevPage(state) {
-    if (state.currentPage > 1) {
-        state.currentPage--;
-        if (state.query) {
-            const response = await api.searchSeries(state.query, state.currentPage);
-            renderResults(response.results, state);
-        } else {
-            fetchDefaultResults(state);
-        }
-    }
-}
-
-async function handleNextPage(state) {
-    if (state.currentPage < state.totalPages) {
-        state.currentPage++;
-        if (state.query) {
-            const response = await api.searchSeries(state.query, state.currentPage);
-            renderResults(response.results, state);
-        } else {
-            fetchDefaultResults(state);
-        }
-    }
-}
-
 async function handlePageBtn(state, dir) {
     if (dir === "next") {
         if (state.currentPage < state.totalPages) {
@@ -88,12 +67,17 @@ async function handlePageBtn(state, dir) {
     } else {
         fetchDefaultResults(state);
     }
+
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
 }
 
 function renderResults(results, state) {
     const container = document.getElementById('search-results');
     const paginationContainer = document.getElementById('pagination');
-    const pageInfo = document.getElementById('page-info');
+    const pageInfo = document.querySelectorAll('#page-info');
 
     container.innerHTML = '';
 
@@ -137,11 +121,18 @@ function createCard(series) {
 }
 
 function updatePaginationInfo(state, pageInfo) {
-    const prevPageButton = document.getElementById('prev-page');
-    const nextPageButton = document.getElementById('next-page');
+    const prevPageButtons = document.querySelectorAll('#prev-page');
+    const nextPageButtons = document.querySelectorAll('#next-page');
 
-    pageInfo.textContent = `${state.currentPage} of ${state.totalPages}`;
-    prevPageButton.style.visibility = state.currentPage > 1 ? 'visible' : 'hidden';
-    nextPageButton.style.visibility = state.currentPage < state.totalPages ? 'visible' : 'hidden';
+    prevPageButtons.forEach((button) => {
+        button.style.visibility = state.currentPage > 1 ? 'visible' : 'hidden';
+    });
+    nextPageButtons.forEach((button) => {
+        button.style.visibility = state.currentPage < state.totalPages ? 'visible' : 'hidden';
+    });    
+
+    pageInfo.forEach((button) => {
+        button.textContent = `${state.currentPage} of ${state.totalPages}`;
+    });
 }
 

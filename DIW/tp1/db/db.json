@@ -1,13 +1,14 @@
 {
   "profile": {
     "id": 1,
-    "name": "John Doe",
-    "course": "Web Development",
-    "email": "john.doe@example.com",
-    "facebook": "https://facebook.com/johndoe",
-    "twitter": "https://twitter.com/johndoe",
-    "instagram": "https://instagram.com/johndoe",
-    "biography": "A passionate web developer with interest in modern technologies and frameworks."
+    "name": "Rafael Grossi",
+    "course": "Ciencia da Computação",
+    "email": "rg.grossi@outlook.com",
+    "avatar": "./assets/img/profile.webp",
+    "classroom": "Desenvolvimento de Interfaces Web - G1/T2 - 1ºP/80H - 2024/2",
+    "github": "https://github.com/xendak",
+    "outro": "Hobbies: Escalada, Linguagens, Livros, Criar Hacks :D",
+    "biography": "Interessado em engenharia reversa e programação para embbeded systems, desprezo frontend!"
   },
   "favorites": [
     {
@@ -18,6 +19,11 @@
     {
       "id": "3b1b",
       "serieId": 235484,
+      "userId": 1
+    },
+    {
+      "id": "9f45",
+      "serieId": 94954,
       "userId": 1
     }
   ]
