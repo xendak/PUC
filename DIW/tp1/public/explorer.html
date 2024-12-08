@@ -11,22 +11,24 @@
     <header class="header">
       <div class="header-content">
         <h1 class="main-title">
-          <span class="tv-icon">📺</span>
+          <span class="tv-icon"><i class="fas fa-tv"></i></span>
           <a href="/">TV Series Portal</a>
         </h1>
         <nav class="nav-menu">
           <a href="/" class="nav-link">
-            <i class="fas fa-home"></i> <!-- House icon -->
+            <i class="fas fa-home"></i>
           </a>
           <a href="/explorer.html" class="nav-link">
-            <i class="fas fa-search"></i> <!-- Search icon -->
+            <i class="fas fa-search"></i>
           </a>
+          <button id="theme-toggle" class="theme-toggle">
+            <i id="theme-icon" class="fas fa-moon"></i>
+          </button>
         </nav>
       </div>
     </header>
 
     <main role="main">
-      <!-- Search Section -->
       <section class="section" id="search-section">
         <form class="search-form" id="search-form">
           <input type="text" class="search-input" id="search-input" placeholder="Procurar por Séries de TV...">
@@ -34,7 +36,6 @@
         </form>
       </section>
 
-      <!-- Search Results -->
       <section class="section" id="search-results-section">
         <div class="pagination" id="pagination">
           <button id="prev-page">Prev</button>
@@ -53,5 +54,6 @@
 
     <script src="/assets/scripts/api.js"></script>
     <script src="/assets/scripts/explorer.js"></script>
+    <script src="/assets/scripts/utils.js"></script>
   </body>
 </html>

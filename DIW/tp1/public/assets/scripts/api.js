@@ -1,11 +1,8 @@
-// API Configuration
 const API_KEY = '2fcf24d155701ad465c7d59c7b0e91f1';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
-// API Helper Functions
 const api = {
-    // TMDB API Calls
     async getPopularSeries(page = 1) {
         const response = await fetch(
             `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=vote_average.desc&vote_count.gte=200&include_adult=false`
@@ -42,7 +39,6 @@ const api = {
         return response.json();
     },
 
-    // JSON Server API Calls
     async getProfile() {
         const response = await fetch('/profile');
         return response.json();
@@ -75,7 +71,6 @@ const api = {
     }
 };
 
-// Helper function to get image URL
 function getImageUrl(path, size = 'original') {
     if (!path) return '/assets/img/no-image.jpg';
     return `${IMAGE_BASE_URL}/${size}${path}`;

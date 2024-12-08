@@ -24,13 +24,13 @@ async function loadSeriesDetails(seriesId) {
             <div class="series-info">
                 <h1 id="series-title">${series.name}</h1>
                 <p id="series-description">${series.overview}</p>
-                <p><strong>Airing Date:</strong> <span id="series-air-date">${series.first_air_date}</span></p>
-                <p><strong>Rating:</strong> <span id="series-rating">${series.vote_average}/10</span></p>
-                <p><strong>Genres:</strong> <span id="series-genres">${series.genres.map(g => g.name).join(', ')}</span></p>
+                <p><strong>Data de Lançamento:</strong> <span id="series-air-date">${series.first_air_date}</span></p>
+                <p><strong>Nota:</strong> <span id="series-rating">${series.vote_average}/10</span></p>
+                <p><strong>Gêneros:</strong> <span id="series-genres">${series.genres.map(g => g.name).join(', ')}</span></p>
                 <button class="favorite-btn" id="favorite-btn" onclick="toggleFavorite(${series.id})">
-                    <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6 3.98 4 6.5 4c1.74 0 3.41.81 4.5 2.09C12.09 4.81 13.76 4 15.5 4 18.02 4 20 6 20 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z">
-                    </path>
+                    <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z">
+                        </path>
                     </svg>
                 </button>
             </div>
@@ -41,22 +41,23 @@ async function loadSeriesDetails(seriesId) {
 async function loadSeriesCast(seriesId) {
     const { cast } = await api.getSeriesCast(seriesId);
     const container = document.getElementById('cast-grid-container');
+    const defaultProfileImage = './assets/img/default-profile.png';
 
     container.innerHTML = '';
     cast.slice(0, 8).forEach(person => {
-        // only creates if theres a photo.
-        if (person.profile_path) {
-            const card = document.createElement('div');
-            card.className = 'cast-card';
-            card.innerHTML = `
-                <img src="${getImageUrl(person.profile_path, 'w185')}" 
-                    alt="${person.name}" 
-                    class="cast-image">
-                <h3 class="cast-name">${person.name}</h3>
-                <p class="cast-character">${person.character}</p>
-            `;
-            container.appendChild(card);
-        }
+        const card = document.createElement('div');
+        card.className = 'cast-card';
+        const profileImage = person.profile_path 
+            ? getImageUrl(person.profile_path, 'w185') 
+            : defaultProfileImage;
+        card.innerHTML = `
+            <img src="${profileImage}" 
+                alt="${person.name}" 
+                class="cast-image">
+            <h3 class="cast-name">${person.name}</h3>
+            <p class="cast-character">${person.character}</p>
+        `;
+        container.appendChild(card);
     });
 
     if (container.innerHTML === '') {
@@ -70,16 +71,17 @@ async function toggleFavorite(sid) {
     const favorites = await api.getFavorites();
     const existing = favorites.find(f => f.serieId === Number(sid));    
 
+    const message = existing ? 'Removido dos favoritos!' : 'Adicionado aos favoritos!';
+
     if (existing) {
-        console.log(existing);
         await api.removeFavorite(existing.id);
         favoriteBtn.classList.remove('favorited');
-        alert('Removed from favorites!');
     } else {
         await api.addFavorite(sid);
         favoriteBtn.classList.add('favorited');
-        alert('Added to favorites!');
     }
+
+    showNotification(message);
 }
 
 async function initializeFavoriteButton(sid) {
