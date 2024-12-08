@@ -5,7 +5,7 @@ const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 const api = {
     async getPopularSeries(page = 1) {
         const response = await fetch(
-            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=vote_average.desc&vote_count.gte=200&include_adult=false`
+            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&page=${page}&sort_by=vote_average.desc&vote_count.gte=200&include_adult=false`
         );
         return response.json();
     },
@@ -13,28 +13,28 @@ const api = {
     async getNewSeries(page = 1) {
         const today = new Date().toISOString().split('T')[0];
         const response = await fetch(
-            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=en-US&page=${page}&sort_by=first_air_date.desc&include_adult=false&first_air_date.lte=${today}&vote_count.gte=1`
+            `${TMDB_BASE_URL}/discover/tv?api_key=${API_KEY}&language=pt-BR&page=${page}&sort_by=first_air_date.desc&include_adult=false&first_air_date.lte=${today}&vote_count.gte=1`
         );
         return response.json();
     },
 
     async searchSeries(query, page = 1) {
         const response = await fetch(
-            `${TMDB_BASE_URL}/search/tv?api_key=${API_KEY}&language=en-US&query=${encodeURIComponent(query)}&page=${page}`
+            `${TMDB_BASE_URL}/search/tv?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}&page=${page}`
         );
         return response.json();
     },
 
     async getSeriesDetails(id) {
         const response = await fetch(
-            `${TMDB_BASE_URL}/tv/${id}?api_key=${API_KEY}&language=en-US`
+            `${TMDB_BASE_URL}/tv/${id}?api_key=${API_KEY}&language=pt-BR`
         );
         return response.json();
     },
 
     async getSeriesCast(id) {
         const response = await fetch(
-            `${TMDB_BASE_URL}/tv/${id}/credits?api_key=${API_KEY}&language=en-US`
+            `${TMDB_BASE_URL}/tv/${id}/credits?api_key=${API_KEY}&language=pt-BR`
         );
         return response.json();
     },
