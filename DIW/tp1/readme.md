@@ -19,6 +19,7 @@
      ```javascript
      const API_KEY = 'API_HERE';
      ```
+   - ps: Eu deixei a minha chave de API aqui, pois o trabalho nao explicou nada sobre como deixar para os corretores, entretanto, por favor utilizar a sua própria chave, conforme explicado acima.
 
 3. **Iniciar o json-server:**
    - Navegue até o diretório onde está localizado o arquivo `db.json` e inicie o json-server:
@@ -45,6 +46,3 @@
 
 3. **Acessar o Servidor Local:**
    - Com o script em execução, abra seu navegador e vá para `http://localhost:3000`.
-
-#  IMPORTANTE
-- **Chave da API:** Certifique-se de que sua chave da API IMDB está corretamente configurada conforme o explicado acima.
