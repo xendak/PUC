@@ -11,7 +11,6 @@
      ```sh
      npm install -g json-server
      ```
-   - Crie o arquivo `db.json` na pasta `./db/` com os dados necessários.
 
 2. **Obter a Chave da API IMDB:**
    - Registre-se no site do IMDB para obter sua chave de API.
@@ -47,9 +46,5 @@
 3. **Acessar o Servidor Local:**
    - Com o script em execução, abra seu navegador e vá para `http://localhost:3000`.
 
-### Dicas Adicionais
-- **Verifique os Logs:** Sempre verifique os logs do terminal para quaisquer erros ou avisos que possam aparecer durante a execução do json-server ou do script Node.js.
-- **Atualizações da API:** Certifique-se de que sua chave da API IMDB está corretamente configurada e que você está usando os endpoints corretos da API.
-
-Seguindo estes passos, você deve conseguir acessar sua página web sem problemas. Se precisar de mais alguma coisa, é só avisar! 😊
-
+#  IMPORTANTE
+- **Chave da API:** Certifique-se de que sua chave da API IMDB está corretamente configurada conforme o explicado acima.
