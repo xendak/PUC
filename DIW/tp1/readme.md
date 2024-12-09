@@ -6,7 +6,10 @@
 
 ### Nix ou NixOS
 1. **Método Alternativo com Nix ou NixOS:** 
-    - Se você usa Nix ou NixOS, execute o comando: ``` nix develop ``` 
+    - Se você usa Nix ou NixOS, execute o comando:
+     ```sh
+        nix develop
+     ```
     - Isso garantirá que você tenha as versões corretas dos pacotes. 
     - Em seguida, siga as instruções abaixo para iniciar o json-server ou executar o script Node.js.
 
