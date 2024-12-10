@@ -3,10 +3,12 @@
 #include "data.h"
 
 Date::Date() {
-    this->day = 0;
-    this->month = 0;
-    this->year = 0;
+    day = 0;
+    month = 0;
+    year = 0;
 }
+
+Date::~Date() {}
 
 Date::Date(int day, int month, int year) {
     set_day(day);
@@ -24,6 +26,10 @@ void Date::set_month(int month) {
 
 void Date::set_year(int year) {
     this->year = year;
+}
+
+bool Date::print() {
+    return true;
 }
 
     /**/

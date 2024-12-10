@@ -2,26 +2,32 @@
 #include "data.h"
 #include <iostream>
 
-Person::Person(std::string name, int age, Date bday) {
+Person::Person(std::string name, std::string cpf, int age, Date bday) {
     this->name = name;
+    this->cpf = cpf;
     this->age = age;
     this->bday = bday; // FIX:: THIS EVENTUALLY
 }
 Person::Person() {
-    this->name = "";
-    this->age = 0;
-    this->bday = Date();
+    name = "";
+    cpf = "";
+    age = 0;
+    bday = Date();
 }
 
-void Person::operator=(Person const& p) {
+void Person::operator=(const Person& p) {
     this->name = p.name;
+    this->cpf = p.cpf;
     this->age = p.age;
     this->bday = p.bday;
 }
 
+Person::~Person() {}
+
 bool Person::print() {
     try{
         std::cout << "Name: " << this->name << std::endl;
+        std::cout << "CPF: " << this->cpf << std::endl;
         std::cout << "Age: " << this->age << std::endl;
         std::cout << "Birthday: " << this->bday.print() << std::endl;
         return true;
@@ -30,34 +36,34 @@ bool Person::print() {
     }
 }
 
-People::People() {
-    this->size = 0;
-    this->p = Person();
-    this->next = NULL;
-    this->prev = NULL;
-}
-
-bool People::add_person(Person np) {
-    try {
-        this->p = np;
-        this->size++;
-        for(int i = 0; i < this->size; i++) {
-            if (this->next == NULL) {
-                // there is no one ahead, so point it towards this new instance
-                this->next = *this;
-                this->prev = ;
-            }
-        }
-        return true;
-    } catch(...) {
-        return false;
-    }
-}
-
-bool People::delete_person() {
-    return false;
-}
-
+/*People::People() {*/
+/*    this->size = 0;*/
+/*    this->p = Person();*/
+/*    this->next = NULL;*/
+/*    this->prev = NULL;*/
+/*}*/
+/**/
+/*bool People::add_person(Person np) {*/
+/*    try {*/
+/*        this->p = np;*/
+/*        this->size++;*/
+/*        for(int i = 0; i < this->size; i++) {*/
+/*            if (this->next == NULL) {*/
+/*                // there is no one ahead, so point it towards this new instance*/
+/*                this->next = *this;*/
+/*                this->prev = ;*/
+/*            }*/
+/*        }*/
+/*        return true;*/
+/*    } catch(...) {*/
+/*        return false;*/
+/*    }*/
+/*}*/
+/**/
+/*bool People::delete_person() {*/
+/*    return false;*/
+/*}*/
+/**/
 /*Pessoa pesquisa_pessoa(Pessoa p, char* str) {*/
 /*    Pessoa result = criar_pessoa();*/
 /**/

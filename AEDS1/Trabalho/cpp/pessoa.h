@@ -1,46 +1,60 @@
 #include <iostream>
-
 #include "data.h"
 
 
 class Person {
-    private:
+    protected:
         std::string name;
+        std::string cpf;
         int age;
         Date bday;
 
     public:
         Person();
-        Person(std::string name, int age, Date bday);
-        ~Person();
+        Person(std::string name, std::string cpf, int age, Date bday);
+        
+        // nada é alocado dinamicamente nessa classe, mas é bom tratar of destruturos individucalmente caso exista divergencia
+        virtual ~Person(); 
 
-        bool print();
-        void operator=(Person const& np);
-        /*bool delete_person();*/
-        /*bool add_person();*/
+        virtual bool print() = 0;
 
+        std::string get_name() const { return name; }
+        std::string get_cpf() const { return cpf; }
+        Date get_birthday() const { return bday; }
+        int get_age() const { return age; }
+
+        void operator=(const Person& np);
 };
 
-// tentativa de simular <LIST>
-class People {
+class Teacher : public Person {
     private:
-        Person p;
-        void* next;
-        void* prev;
-        static int size;
-
+        std::string department;
+        double salary;
+        
     public:
-        People();
-        People(Person p);
-        ~People();
+        Teacher();
+        Teacher(std::string name, std::string cpf, int age, Date bday,
+                std::string department, double salary);
+        ~Teacher() override;
 
-        bool add_person(Person p);
-        bool delete_person(); // acccept some kind of search eventually
-        Person* search_person();
+        bool print() override;
+        std::string get_department() const { return department; }
+        double get_salary() const { return salary; }
 };
 
-
-class List {
+class Student : public Person {
     private:
+        std::string course;
+        int enrollment;
+        
+    public:
+        Student();
+        Student(std::string name, std::string cpf, int age, Date bday,
+                std::string course, int enrollment);
+        ~Student() override;
 
+        bool print() override;
+
+        std::string get_course() const { return course; }
+        int get_enrollment() const { return enrollment; }
 };
