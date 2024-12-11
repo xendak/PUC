@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <functional>
 
 template<typename T>
 class List {
@@ -17,7 +18,43 @@ class List {
         Node* head;
         int size;
 
+        bool remove_node(nodeptr current_node);
+
     public:
+        // attempt at Iterators
+
+        class Iterator {
+            private:
+                nodeptr current;
+                int pos;
+                int list_size;
+
+            public:
+                // trying to use forward iterator like vecs, i liked that :)
+                using value_type = T;
+                using reference = T&;
+                using pointer = T*;
+                using iterator_category = std::forward_iterator_tag;
+
+                // trying one liner? idk if this is better than declaring after the class...
+                Iterator(nodeptr node, int pos, int size) : current(node), pos(pos), list_size(size) {}
+
+                // get actual value, dereference.
+                T& operator*();
+
+                // apparently this is pre increment , so i++;
+                Iterator& operator++();
+
+                // this should be ++i;
+                Iterator operator++(int);
+
+                bool operator==(const Iterator& other) const;
+                bool operator!=(const Iterator& other) const;
+
+                T* next();
+        };
+
+        // Public List Methods
         List();
         List(T obj);
         ~List();
@@ -25,10 +62,22 @@ class List {
         // LIFO
         bool push(T obj);
         bool pop();
+        bool is_empty() { return size == 0; }
+
+
+        nodeptr find_by_index(int index);
         bool remove_by_index(int index);
+
+        Iterator begin() const;
+        Iterator end() const;
+
         template<typename Comparator = std::equal_to<T>>
-        bool remove_by_valor(const T& val, Comparator comp = Comparator{});
-        void print();
+            nodeptr find_by_value(const T& val, Comparator comp = Comparator());
+        template<typename Comparator = std::equal_to<T>>
+            bool remove_by_value(const T& val, Comparator comp = Comparator());
+
+        template<typename Formatter = std::function<void (const T&)>>
+            void print(Formatter fmt = [](const T& val) { std::cout << val; });
 };
 
 template <typename T>
@@ -46,10 +95,10 @@ List<T>::List() {
 
 template <typename T>
 List<T>::List(T obj) {
-   head = new Node(obj);
-   head->next = head;
-   head->prev = head;
-   size = 1;
+    head = new Node(obj);
+    head->next = head;
+    head->prev = head;
+    size = 1;
 }
 
 template <typename T>
@@ -58,20 +107,20 @@ List<T>::~List() {
         pop();
 }
 
-template <typename T>
-bool List<T>::pop() {
+template<typename T>
+bool List<T>::remove_node(nodeptr to_remove) {
     bool res = false;
-    if (size < 1) { res = false; }
+    if (size < 1 || to_remove == nullptr) { res = false; }
     else if (size == 1) {
         delete head;
         head = nullptr;
         res = true;
     } else {
-        // get the last(tail) object, make its pointers next/prev point through the tail, delete tail.
-        nodeptr tail = head->prev;
-        head->prev = tail->prev;
-        head->prev->next = head;
-        delete tail;
+        if (to_remove == head) { head = head->next; }
+
+        to_remove->next->prev = to_remove->prev;
+        to_remove->prev->next = to_remove->next;
+        delete to_remove;
         res = true;
     }
 
@@ -81,64 +130,77 @@ bool List<T>::pop() {
 }
 
 template <typename T>
+bool List<T>::pop() {
+    bool res = false;
+    if (size < 1) 
+        res = false;
+    else
+        res = remove_node(head->prev);
+
+    return res;
+}
+
+template <typename T>
+typename List<T>::nodeptr List<T>::find_by_index(int index) {
+    nodeptr ret = nullptr;
+
+    if (index > size || index < 0) 
+        ret = nullptr;
+    else {
+        nodeptr curr = head;
+        for (int i = 0; i < index; i++)
+            curr = curr->next;
+
+        ret = curr;
+    }
+
+    return ret;
+}
+
+template <typename T>
 bool List<T>::remove_by_index(int index) {
     bool res = false;
-    if (index > size || index < 0) { res = false; }
-    else if (size == 1 && index == 0) {
-        delete head;
-        head = nullptr;
-        res = true;
-    } else if (size > 1) {
-        nodeptr curr = head;
-        int i = 0;
-        while (!res) {
-            if (index == i) {
-                if (index == 0) { head = head->next; }
-                curr->next->prev = curr->prev;
-                curr->prev->next = curr->next;
-                delete curr;
-                res = true;
-            } else {
-                curr = curr->next;
-                i++;
-            }
+    if (index < 0 || index > size) 
+        res = false;
+    else {
+        nodeptr to_remove = find_by_index(index);
+        if (to_remove == nullptr)
+            res = false;
+        else {
+            res = remove_node(to_remove);
         }
     }
 
-    if (res)
-        size--;
     return res;
 }
 
 template <typename T>
 template <typename Comparator>
-bool List<T>::remove_by_valor(const T& val, Comparator comp) {
-    bool res = false;
-    if (size == 1 && comp(head->data, val)) { 
-        delete head;
-        head = nullptr;
-        res = true;
-    }
-    else if (size > 1) {
-        nodeptr curr = head;
-        do {
-            if (comp(val, curr->data)) {
-                if (head == curr) { head = head->next; }
-                curr->next->prev = curr->prev;
-                curr->prev->next = curr->next;
-                delete curr;
-                res = true;
-            } else {
-                curr = curr->next;
-            }
-        } while(curr != head && !res);
-    }
-    if (res)
-        size--;
-    // if errror catching, val not found.
-    return res;
+typename List<T>::nodeptr List<T>::find_by_value(const T& val, Comparator comp) {
+    nodeptr ret = nullptr;
+    nodeptr curr = head;
+
+    do {
+        if (comp(curr->data))
+            ret = curr;
+        else
+            curr = curr->next;
+    } while (curr != head && !ret);
+
+    return ret;
 }
 
+template <typename T>
+template <typename Comparator>
+bool List<T>::remove_by_value(const T& val, Comparator comp) {
+    bool res = false;
+    nodeptr to_remove = find_by_value(val, comp);
+
+    if(to_remove)
+        res = remove_node(to_remove);
+
+    return res;
+}
 
 template <typename T>
 bool List<T>::push(T obj) {
@@ -154,7 +216,9 @@ bool List<T>::push(T obj) {
             head->next = head;
             head->prev = head;
         } else {
-            // using tail is O(1), while my old method was O(n)....
+            // be smart and grab the tail
+            // since we are making a doubly linked list
+            // might aas well use O(1)
             nodeptr tail = head->prev;
             tail->next = newNode;
             newNode->prev = tail;
@@ -166,16 +230,76 @@ bool List<T>::push(T obj) {
     return res;
 }
 
-template <typename T>
-void List<T>::print() {
+template<typename T>
+template<typename Formatter>
+void List<T>::print(Formatter fmt) {
     nodeptr curr = head;
-    std::cout << "Size: " << size << "\t||\t";
+
+    std::cout << "Size: " << size << std::endl;
 
     if (size) {
         for(int i = 0; i < size; i++) {
-            std::cout << i << ": " << curr->data << "\t";
+            fmt(curr->data);
             curr = curr->next;
         }
     }
     std::cout << std::endl;
+}
+
+// Iterators implementation
+
+template<typename T>
+T& List<T>::Iterator::operator*() {
+    return current->data;
+}
+
+template<typename T>
+typename List<T>::Iterator& List<T>::Iterator::operator++() {
+    if (pos < list_size) {
+        current = current->next;
+        ++pos;
+    }
+    return *this;
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::Iterator::operator++(int) {
+    Iterator temp = *this;
+    if (pos < list_size) {
+        current = current->next;
+        ++pos;
+    }
+    return temp;
+}
+
+template<typename T>
+bool List<T>::Iterator::operator==(const Iterator& other) const {
+    return pos == other.pos && current == other.current;
+}
+
+template<typename T>
+bool List<T>::Iterator::operator!=(const Iterator& other) const {
+    return pos != other.pos;
+}
+
+template<typename T>
+T* List<T>::Iterator::next() {
+    if (!current || pos >= list_size) {
+        return nullptr; // End of list
+    }
+    T* data = &current->data;
+    current = current->next;
+    ++pos;
+    return data;
+}
+
+// List iterator begin
+template<typename T>
+typename List<T>::Iterator List<T>::begin() const {
+    return Iterator(head, 0, size);
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::end() const {
+    return Iterator(head, size, size);
 }

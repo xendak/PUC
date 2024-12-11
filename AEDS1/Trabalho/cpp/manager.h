@@ -9,10 +9,10 @@ class PersonManager {
         List<Person *> people;
 
     public:
-        PersonManager();
+        PersonManager() {};
         ~PersonManager();
 
-        bool add_person(const Person& p);
+        bool add_person(Person* p);
         Person* find_by_name(const std::string& name);
         Person* find_by_cpf(const std::string& cpf);
 };

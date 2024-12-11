@@ -1,9 +1,6 @@
 #include <iostream>
 
-#include "pessoa.h"
 #include "manager.h"
-#include "list.h"
-#include "data.h"
 
 using namespace std;
 
@@ -11,11 +8,34 @@ bool valid_option(int op, int sb);
 void main_menu();
 void sub_menu(int op);
 int execute_option(int op, int* sb);
+void final_loop();
 
 
 int main(int argc, char** argv) {
-    List<Person> pessoas;
+    PersonManager manager;
+    Date d = Date();
 
+    manager.add_person(new Student("John Doe", "123456789", 20, d, "Computer Science", 12345));
+    manager.add_person(new Teacher("Jane Smith", "987654321", 35, d, "CS Department", 75000.0));
+    manager.add_person(new Student("Alice Johnson", "456789123", 22, d, "Physics", 12346));
+    // Search by name
+    Person* found = manager.find_by_name("Alice ");
+    if (found) {
+        std::cout << "Found: " << found->get_name() << std::endl;
+    } else {
+        std::cout << "Not found" << std::endl;
+    }
+    found = manager.find_by_cpf("987654321");
+    if (found) {
+        std::cout << "Found: " << found->get_name() << std::endl;
+    } else {
+        std::cout << "Not found" << std::endl;
+    }
+
+    return 0;
+}
+
+void final_loop() {
     int menu = -1;
     int curr_menu = 0;
     while (execute_option(menu, &curr_menu) != -1) {
@@ -27,8 +47,6 @@ int main(int argc, char** argv) {
 
         cin >> menu;
     }
-
-    return 0;
 }
 
 int execute_option(int op, int* sb) {
@@ -39,6 +57,7 @@ int execute_option(int op, int* sb) {
     else { *sb = 0; }
 
     //do function.
+    // sb as main menu option, and op as sub menu selected.
 
     return 1;
 }

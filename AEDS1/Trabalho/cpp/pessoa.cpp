@@ -6,7 +6,7 @@ Person::Person(std::string name, std::string cpf, int age, Date bday) {
     this->name = name;
     this->cpf = cpf;
     this->age = age;
-    this->bday = bday; // FIX:: THIS EVENTUALLY
+    this->bday = bday;
 }
 Person::Person() {
     name = "";
@@ -22,19 +22,25 @@ void Person::operator=(const Person& p) {
     this->bday = p.bday;
 }
 
-Person::~Person() {}
-
 bool Person::print() {
     try{
-        std::cout << "Name: " << this->name << std::endl;
+        std::cout << "Nome: " << this->name << std::endl;
         std::cout << "CPF: " << this->cpf << std::endl;
-        std::cout << "Age: " << this->age << std::endl;
-        std::cout << "Birthday: " << this->bday.print() << std::endl;
+        std::cout << "Idade: " << this->age << std::endl;
+        std::cout << "Aniversário: " << this->bday.print() << std::endl;
         return true;
     } catch(...) {
         return false;
     }
 }
+
+
+Student::~Student() {};
+Teacher::~Teacher() {};
+
+bool Student::print() {};
+bool Teacher::print() {};
+
 
 /*People::People() {*/
 /*    this->size = 0;*/
