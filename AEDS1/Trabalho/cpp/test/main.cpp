@@ -33,7 +33,7 @@ void iterator_test() {
         std::cout << v << "\t";
     
     std::cout << "\nimplementation 3\n";
-    /*for (auto i = list.begin(); i != list.end(); i.next()) {*/
+    /*for (auto i = list.begin(); i != list.end(); ++i) {*/
     // this line can so also have ++i or i++;, ++i being the ideal solution
     // since no copy would be needed.
     for (auto i = list.begin(); i != list.end(); i.next()) {
