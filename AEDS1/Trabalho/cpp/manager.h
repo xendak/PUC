@@ -15,4 +15,9 @@ class PersonManager {
         bool add_person(Person* p);
         Person* find_by_name(const std::string& name);
         Person* find_by_cpf(const std::string& cpf);
+
+        bool remove_by_name(const std::string& name);
+        bool remove_by_cpf(const std::string& cpf);
+        
+        void print();
 };

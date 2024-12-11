@@ -30,9 +30,44 @@ Person* PersonManager::find_by_cpf(const std::string& cpf) {
 
     Person* person = nullptr;
     for (auto it = people.begin(); it != people.end(); ++it) {
+        // dereference it, so we get the List instead of the iterator, then check
         if ((*it)->get_cpf() == cpf) {
             person = (*it);
         }
     }
     return person;
+}
+
+bool PersonManager::remove_by_name(const std::string& name) {
+    auto comparator = Person::compare_by_name(name);
+    return people.remove_by_value(nullptr, comparator);
+}
+
+bool PersonManager::remove_by_cpf(const std::string& cpf) {
+    //method 2 so we learn a new way of iterating :)
+    // will be "ineficient" since my remove_node is private, so we
+    // traverse the list twice to get what we want :)
+    bool ans = false;
+    auto to_delete = people.begin();
+    for (auto it = people.begin(); it != people.end(); ++it) {
+        if ((*it)->get_cpf() == cpf) {
+            to_delete = it;
+        }
+    }
+
+    if (!(*to_delete == nullptr)) {
+        delete (*to_delete);
+        ans = people.remove_node(*to_delete);
+
+    }
+
+    return ans;
+}
+
+void PersonManager::print() {
+    int i = 0;
+    for (Person* p : people) {
+        std::cout << i << ". Nome: " << p->get_name() << std::endl;
+        i++;
+    }
 }

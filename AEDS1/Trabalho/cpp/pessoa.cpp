@@ -38,8 +38,8 @@ bool Person::print() {
 Student::~Student() {};
 Teacher::~Teacher() {};
 
-bool Student::print() {};
-bool Teacher::print() {};
+bool Student::print() { return true; };
+bool Teacher::print() { return true; };
 
 
 /*People::People() {*/

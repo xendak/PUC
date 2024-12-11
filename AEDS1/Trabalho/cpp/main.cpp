@@ -19,19 +19,24 @@ int main(int argc, char** argv) {
     manager.add_person(new Teacher("Jane Smith", "987654321", 35, d, "CS Department", 75000.0));
     manager.add_person(new Student("Alice Johnson", "456789123", 22, d, "Physics", 12346));
     // Search by name
-    Person* found = manager.find_by_name("Alice ");
-    if (found) {
-        std::cout << "Found: " << found->get_name() << std::endl;
-    } else {
-        std::cout << "Not found" << std::endl;
-    }
-    found = manager.find_by_cpf("987654321");
-    if (found) {
-        std::cout << "Found: " << found->get_name() << std::endl;
-    } else {
-        std::cout << "Not found" << std::endl;
-    }
+    manager.print();
+    manager.remove_by_cpf("456789123");
+    /*manager.remove_by_name("John Doe");*/
+    manager.print();
 
+    /*Person* found = manager.find_by_name("John Doe");*/
+    /*if (found) {*/
+    /*    std::cout << "Found: " << found->get_name() << std::endl;*/
+    /*} else {*/
+    /*    std::cout << "Not found: " << found << std::endl;*/
+    /*}*/
+    /*found = manager.find_by_cpf("456789123");*/
+    /*if (found) {*/
+    /*    std::cout << "Found: " << found->get_name() << std::endl;*/
+    /*} else {*/
+    /*    std::cout << "Not found: " << found << std::endl;*/
+    /*}*/
+    /**/
     return 0;
 }
 

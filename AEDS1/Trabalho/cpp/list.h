@@ -18,7 +18,6 @@ class List {
         Node* head;
         int size;
 
-        bool remove_node(nodeptr current_node);
 
     public:
         // attempt at Iterators
@@ -59,6 +58,8 @@ class List {
         List(T obj);
         ~List();
 
+        bool remove_node(nodeptr current_node);
+
         // LIFO
         bool push(T obj);
         bool pop();
@@ -72,12 +73,13 @@ class List {
         Iterator end() const;
 
         template<typename Comparator = std::equal_to<T>>
-            nodeptr find_by_value(const T& val, Comparator comp = Comparator());
+        nodeptr find_by_value(const T& val, Comparator comp = Comparator());
         template<typename Comparator = std::equal_to<T>>
-            bool remove_by_value(const T& val, Comparator comp = Comparator());
+        bool remove_by_value(const T& val, Comparator comp = Comparator());
 
         template<typename Formatter = std::function<void (const T&)>>
-            void print(Formatter fmt = [](const T& val) { std::cout << val; });
+        void print(Formatter fmt = [](const T& val) { std::cout << val; });
+
 };
 
 template <typename T>
@@ -103,31 +105,60 @@ List<T>::List(T obj) {
 
 template <typename T>
 List<T>::~List() {
-    while(size)
-        pop();
+    while(pop());
 }
 
 template<typename T>
 bool List<T>::remove_node(nodeptr to_remove) {
-    bool res = false;
-    if (size < 1 || to_remove == nullptr) { res = false; }
-    else if (size == 1) {
+    if (size < 1 || to_remove == nullptr) {
+        return false;
+    }
+    
+    if (size == 1) {
         delete head;
         head = nullptr;
-        res = true;
     } else {
-        if (to_remove == head) { head = head->next; }
-
-        to_remove->next->prev = to_remove->prev;
-        to_remove->prev->next = to_remove->next;
+        // Save the next and prev pointers before modifying anything
+        nodeptr next_node = to_remove->next;
+        nodeptr prev_node = to_remove->prev;
+        
+        // Update head first if needed
+        if (to_remove == head) {
+            head = next_node;
+        }
+        
+        // Now safely update the links
+        next_node->prev = prev_node;
+        prev_node->next = next_node;
+        
         delete to_remove;
-        res = true;
     }
-
-    if (res) size--;
-
-    return res;
+    
+    size--;
+    return true;
 }
+
+/*template<typename T>*/
+/*bool List<T>::remove_node(nodeptr to_remove) {*/
+/*    bool res = false;*/
+/*    if (size < 1 || to_remove == nullptr) { res = false; }*/
+/*    else if (size == 1) {*/
+/*        delete head;*/
+/*        head = nullptr;*/
+/*        res = true;*/
+/*    } else {*/
+/*        if (to_remove == head) { head = head->next; }*/
+/**/
+/*        to_remove->next->prev = to_remove->prev;*/
+/*        to_remove->prev->next = to_remove->next;*/
+/*        delete to_remove;*/
+/*        res = true;*/
+/*    }*/
+/**/
+/*    if (res) size--;*/
+/**/
+/*    return res;*/
+/*}*/
 
 template <typename T>
 bool List<T>::pop() {
