@@ -22,78 +22,44 @@ void Person::operator=(const Person& p) {
     this->bday = p.bday;
 }
 
-bool Person::print() {
-    try{
-        std::cout << "Nome: " << this->name << std::endl;
-        std::cout << "CPF: " << this->cpf << std::endl;
-        std::cout << "Idade: " << this->age << std::endl;
-        std::cout << "Aniversário: " << this->bday.print() << std::endl;
-        return true;
-    } catch(...) {
-        return false;
-    }
-}
+int Person::find_age() const {
+    Date today = Date::get_current_date();
+    int calculated_age = today.get_year() - bday.get_year();
 
+    if (today.get_day() < bday.get_day() || (today.get_month() == bday.get_month() && today.get_day() < bday.get_day())) {
+        calculated_age--;
+    }
+
+    return calculated_age;
+}
 
 Student::~Student() {};
 Teacher::~Teacher() {};
 
-bool Student::print() { return true; };
-bool Teacher::print() { return true; };
+bool Student::print() {
+    std::cout << get_type() << std::endl;
+    std::cout << "\t" << "Nome: " << name << std::endl;
+    std::cout << "\t" << "CPF: " << cpf << std::endl;
+    std::cout << "\t" << "Idade: " << age << std::endl;
+    std::cout << "\t" << "Anivesário: " << bday.print_as_string() << std::endl;
+    /*std::cout << "\t" << "Aniversário: "; */
+    /*bday.print();*/
+    /*std::cout << std::endl;*/
+    std::cout << "\t" << "Curso: " << course << std::endl;
+    std::cout << "\t" << "Matrícula: " << student_id << std::endl;
+    return true;
+}
 
-
-/*People::People() {*/
-/*    this->size = 0;*/
-/*    this->p = Person();*/
-/*    this->next = NULL;*/
-/*    this->prev = NULL;*/
-/*}*/
-/**/
-/*bool People::add_person(Person np) {*/
-/*    try {*/
-/*        this->p = np;*/
-/*        this->size++;*/
-/*        for(int i = 0; i < this->size; i++) {*/
-/*            if (this->next == NULL) {*/
-/*                // there is no one ahead, so point it towards this new instance*/
-/*                this->next = *this;*/
-/*                this->prev = ;*/
-/*            }*/
-/*        }*/
-/*        return true;*/
-/*    } catch(...) {*/
-/*        return false;*/
-/*    }*/
-/*}*/
-/**/
-/*bool People::delete_person() {*/
-/*    return false;*/
-/*}*/
-/**/
-/*Pessoa pesquisa_pessoa(Pessoa p, char* str) {*/
-/*    Pessoa result = criar_pessoa();*/
-/**/
-/*    for (int i = 0; i < p.tam; i++) {*/
-/*        if (strstr(p.p[i].nome, str) != NULL)*/
-/*            escreve_pessoas(&result, str, NULL);*/
-/*    }*/
-/**/
-/*    return result;*/
-/*}*/
-/**/
-/*s_Pessoa* pesquisa_pessoa_cpf(Pessoa p, char* cpf) {*/
-/*    s_Pessoa* res = NULL;*/
-/*    int sz = p.tam;*/
-/**/
-/*    while(!strcmp(p.p[sz].cpf, cpf) && sz) {*/
-/*        if(strcmp(p.p[sz].cpf, cpf)) res = &p.p[sz];*/
-/*        sz--;*/
-/*    }*/
-/**/
-/*    return res;*/
-/*}*/
-/**/
-/*bool delete_pessoa_por_cpf(Pessoa* p, char* cpf) {*/
-/*    return false;*/
-/*}*/
-
+bool Teacher::print() {
+    std::cout << get_type() << std::endl;
+    std::cout << "\t" << "Nome: " << name << std::endl;
+    std::cout << "\t" << "CPF: " << cpf << std::endl;
+    std::cout << "\t" << "Idade: " << age << std::endl;
+    std::cout << "\t" << "Anivesário: " << bday.print_as_string() << std::endl;
+    /*std::cout << "\t" << "Aniversário: "; */
+    /*bday.print();*/
+    /*std::cout << std::endl;*/
+    std::cout << "\t" << "Departamento: " << department << std::endl;
+    std::cout << "\t" << "Salário: " << salary << std::endl;
+    return true;
+}

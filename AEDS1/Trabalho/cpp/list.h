@@ -3,6 +3,8 @@
 #include <iostream>
 #include <functional>
 
+#include <type_traits> // std::is_pointer
+
 template<typename T>
 class List {
     private:
@@ -18,6 +20,7 @@ class List {
         Node* head;
         int size;
 
+        bool remove_node(nodeptr current_node);
 
     public:
         // attempt at Iterators
@@ -57,8 +60,6 @@ class List {
         List();
         List(T obj);
         ~List();
-
-        bool remove_node(nodeptr current_node);
 
         // LIFO
         bool push(T obj);
@@ -110,55 +111,31 @@ List<T>::~List() {
 
 template<typename T>
 bool List<T>::remove_node(nodeptr to_remove) {
-    if (size < 1 || to_remove == nullptr) {
-        return false;
-    }
-    
-    if (size == 1) {
+    bool res = false;
+    if (size < 1 || to_remove == nullptr) { res = false; }
+    else if (size == 1) {
+        if constexpr (std::is_pointer<T>::value) 
+            delete head->data;
         delete head;
-        head = nullptr;
-    } else {
-        // Save the next and prev pointers before modifying anything
-        nodeptr next_node = to_remove->next;
-        nodeptr prev_node = to_remove->prev;
-        
-        // Update head first if needed
-        if (to_remove == head) {
-            head = next_node;
-        }
-        
-        // Now safely update the links
-        next_node->prev = prev_node;
-        prev_node->next = next_node;
-        
-        delete to_remove;
-    }
-    
-    size--;
-    return true;
-}
 
-/*template<typename T>*/
-/*bool List<T>::remove_node(nodeptr to_remove) {*/
-/*    bool res = false;*/
-/*    if (size < 1 || to_remove == nullptr) { res = false; }*/
-/*    else if (size == 1) {*/
-/*        delete head;*/
-/*        head = nullptr;*/
-/*        res = true;*/
-/*    } else {*/
-/*        if (to_remove == head) { head = head->next; }*/
-/**/
-/*        to_remove->next->prev = to_remove->prev;*/
-/*        to_remove->prev->next = to_remove->next;*/
-/*        delete to_remove;*/
-/*        res = true;*/
-/*    }*/
-/**/
-/*    if (res) size--;*/
-/**/
-/*    return res;*/
-/*}*/
+        head = nullptr;
+        res = true;
+    } else {
+        if (to_remove == head) { head = head->next; }
+
+        to_remove->next->prev = to_remove->prev;
+        to_remove->prev->next = to_remove->next;
+
+        if constexpr (std::is_pointer<T>::value)
+            delete to_remove->data;
+        delete to_remove;
+        res = true;
+    }
+
+    if (res) size--;
+
+    return res;
+}
 
 template <typename T>
 bool List<T>::pop() {

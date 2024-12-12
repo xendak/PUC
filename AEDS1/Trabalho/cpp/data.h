@@ -18,14 +18,23 @@ class Date {
         bool change_date();
         std::string list_month_by_name();
         int get_days_in_month();
-        bool print();
+        void print();
+        std::string print_as_string();
 
-    private:
-        bool is_leap_year();
-        bool is_valid_date();
+        // inline
+        int get_day() const { return day; }
+        int get_month() const { return month; }
+        int get_year() const { return year; }
+
+        static int get_current_month();
+        static Date get_current_date();
+
         void set_day(int day);
         void set_month(int month);
         void set_year(int year);
+
+        bool is_leap_year();
+        bool is_valid_date();
 
 };
 

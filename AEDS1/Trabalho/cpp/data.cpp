@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 #include "data.h"
 
@@ -28,19 +30,28 @@ void Date::set_year(int year) {
     this->year = year;
 }
 
-bool Date::print() {
-    return true;
+int Date::get_current_month() {
+    return get_current_date().get_month();
 }
 
-    /**/
-    /*public:*/
-    /*    Date New(int day, int month, int year);*/
-    /*    bool check_date();*/
-    /*    bool change_date();*/
-    /*    std::string list_month_by_name();*/
-    /*    int get_days_in_month();*/
-    /*    bool print();*/
-    /**/
-    /*private:*/
-    /*    bool is_leap_year();*/
-    /*    bool is_valid_date();*/
+Date Date::get_current_date() {
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_c = std::chrono::system_clock::to_time_t(now);
+    struct tm *parts = std::localtime(&now_c);
+
+    return Date(1900 + parts->tm_year, 1    + parts->tm_mon, parts->tm_mday);
+}
+
+std::string Date::print_as_string() {
+    std::string s = std::to_string(day);
+    s.append("/");
+    s.append(std::to_string(month));
+    s.append("/");
+    s.append(std::to_string(year));
+    return s; 
+}
+
+void Date::print() {
+    std::cout << day  << "/"  << month  << "/"  << year  << "/";
+
+}

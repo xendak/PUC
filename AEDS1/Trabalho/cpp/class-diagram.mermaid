@@ -1,0 +1,109 @@
+classDiagram
+    class Date {
+        -int day
+        -int month
+        -int year
+        +Date()
+        +Date(int day, int month, int year)
+        +check_date() bool
+        +change_date() bool
+        +list_month_by_name() string
+        +get_days_in_month() int
+        +print() void
+        +print_as_string() string
+        +get_day() int
+        +get_month() int
+        +get_year() int
+        +get_current_month() int$
+        +get_current_date() Date$
+        +set_day(int) void
+        +set_month(int) void
+        +set_year(int) void
+        +is_leap_year() bool
+        +is_valid_date() bool
+    }
+
+    class List~T~ {
+        -Node* head
+        -int size
+        +List()
+        +List(T obj)
+        +push(T obj) bool
+        +pop() bool
+        +is_empty() bool
+        +find_by_index(int) Node*
+        +remove_by_index(int) bool
+        +find_by_value(T&, Comparator) Node*
+        +remove_by_value(T&, Comparator) bool
+        +print(Formatter) void
+        +begin() Iterator
+        +end() Iterator
+    }
+
+    class Person {
+        #string name
+        #string cpf
+        #int age
+        #Date bday
+        +Person()
+        +Person(string, string, int, Date)
+        +print() bool*
+        +get_type() string*
+        +get_name() string
+        +get_cpf() string
+        +get_birthday() Date
+        +get_age() int
+        +find_age() int
+        +operator=(Person&) void
+    }
+
+    class Teacher {
+        -string department
+        -double salary
+        +Teacher()
+        +Teacher(string, string, int, Date, string, double)
+        +get_type() string
+        +print() bool
+        +get_department() string
+        +get_salary() double
+    }
+
+    class Student {
+        -string course
+        -int student_id
+        +Student()
+        +Student(string, string, int, Date, string, int)
+        +get_type() string
+        +print() bool
+        +get_course() string
+        +get_student_id() int
+    }
+
+    class PersonManager {
+        -List~Person*~ people
+        +PersonManager()
+        +add_person(Person*) bool
+        +find_by_name(string) Person*
+        +find_by_cpf(string) Person*
+        +find_type_by_name(string, string) Person*
+        +find_type_by_cpf(string, string) Person*
+        +remove_by_name(string) bool
+        +remove_by_cpf(string) bool
+        +remove_type_by_name(string, string) bool
+        +remove_type_by_cpf(string, string) bool
+        +remove_all_by_type(string) bool
+        +remove_all() bool
+        +print() void
+        +list_all() void
+        +list_by_type(string) void
+        +list_bday(int) void
+        +list_bday_by_type(int, string) void
+        +save_to_file(string) void
+        +load_from_file(string) void
+    }
+
+    Person <|-- Teacher
+    Person <|-- Student
+    Person *-- Date
+    PersonManager *-- "1" List
+    PersonManager o-- "*" Person
