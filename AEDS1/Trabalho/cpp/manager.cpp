@@ -169,70 +169,89 @@ bool PersonManager::remove_all() {
 }
 
 // file handler
+
 void PersonManager::save_to_file(const std::string& filename) {
-    std::ofstream file(filename, std::ios::out);
-    if (!file.is_open()) {
-        std::cerr << "Arquivo nao pode ser aberto. " << std::endl;
-        return;
-    }
-    for (auto it = people.begin(); it != people.end(); ++it) {
-        Person* person = *it;
-        file << person->get_type() << ",";
-        file << person->get_name() << ",";
-        file << person->get_cpf() << ",";
-        file << person->get_age() << ",";
-        file << person->get_birthday().get_day() << "/";
-        file << person->get_birthday().get_month() << "/";
-        file << person->get_birthday().get_year();
-        if (person->get_type() == "Professor") {
-            Teacher* teacher = static_cast<Teacher*>(person);
-            file << "," << teacher->get_department() << "," << teacher->get_salary();
-        } else if (person->get_type() == "Aluno") {
-            Student* student = static_cast<Student*>(person);
-            file << "," << student->get_course() << "," << student->get_student_id();
+    try {
+        std::ofstream file(filename, std::ios::out);
+        if (!file.is_open()) {
+            throw std::ios_base::failure("Failed to open file for writing.");
         }
-        file << std::endl;
+
+        for (auto it = people.begin(); it != people.end(); ++it) {
+            Person* person = *it;
+            file << person->get_type() << ",";
+            file << person->get_name() << ",";
+            file << person->get_cpf() << ",";
+            file << person->get_age() << ",";
+            file << person->get_birthday().get_day() << "/";
+            file << person->get_birthday().get_month() << "/";
+            file << person->get_birthday().get_year();
+            if (person->get_type() == "Professor") {
+                Teacher* teacher = static_cast<Teacher*>(person);
+                file << "," << teacher->get_department() << "," << teacher->get_salary();
+            } else if (person->get_type() == "Aluno") {
+                Student* student = static_cast<Student*>(person);
+                file << "," << student->get_course() << "," << student->get_student_id();
+            }
+            file << std::endl;
+        }
+
+        file.close();
+    } catch (const std::ios_base::failure& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred while saving to the file." << std::endl;
     }
-    file.close();
 }
 
-
 void PersonManager::load_from_file(const std::string& filename) {
-    std::ifstream file(filename, std::ios::in);
-    if (!file.is_open()) {
-        std::cerr << "Nao existe nada salvado. Vamos começar do zero :)" << std::endl;
-        return;
-    }
-    std::string line;
-    while (std::getline(file, line)) {
-        std::stringstream ss(line);
-        std::string type, name, cpf, department, course;
-        int age, day, month, year, student_id;
-        double salary;
-
-        std::getline(ss, type, ',');
-        std::getline(ss, name, ',');
-        std::getline(ss, cpf, ',');
-        ss >> age;
-        ss.ignore(1); // Skip comma
-        ss >> day;
-        ss.ignore(1);
-        ss >> month;
-        ss.ignore(1);
-        ss >> year;
-
-        if (type == "Professor") {
-            ss.ignore(1); // Skip comma
-            std::getline(ss, department, ',');
-            ss >> salary;
-            add_person(new Teacher(name, cpf, age, Date(day, month, year), department, salary));
-        } else if (type == "Aluno") {
-            ss.ignore(1); // Skip comma
-            std::getline(ss, course, ',');
-            ss >> student_id;
-            add_person(new Student(name, cpf, age, Date(day, month, year), course, student_id));
+    try {
+        std::ifstream file(filename, std::ios::in);
+        if (!file.is_open()) {
+            throw std::ios_base::failure("File not found or cannot be opened for reading.");
         }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            try {
+                // by line so we can get the most out of what is saved.
+                std::stringstream ss(line);
+                std::string type, name, cpf, department, course;
+                int age, day, month, year, student_id;
+                double salary;
+
+                std::getline(ss, type, ',');
+                std::getline(ss, name, ',');
+                std::getline(ss, cpf, ',');
+                ss >> age;
+                ss.ignore(1); // Skip comma
+                ss >> day;
+                ss.ignore(1);
+                ss >> month;
+                ss.ignore(1);
+                ss >> year;
+
+                if (type == "Professor") {
+                    ss.ignore(1); // Skip comma
+                    std::getline(ss, department, ',');
+                    ss >> salary;
+                    add_person(new Teacher(name, cpf, age, Date(day, month, year), department, salary));
+                } else if (type == "Aluno") {
+                    ss.ignore(1); // Skip comma
+                    std::getline(ss, course, ',');
+                    ss >> student_id;
+                    add_person(new Student(name, cpf, age, Date(day, month, year), course, student_id));
+                }
+            } catch (...) {
+                std::cerr << "Error parsing line: " << line << std::endl;
+            }
+        }
+
+        file.close();
+    } catch (const std::ios_base::failure& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "An unknown error occurred while loading from the file." << std::endl;
     }
-    file.close();
 }
 
