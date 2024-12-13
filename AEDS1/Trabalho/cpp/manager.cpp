@@ -143,25 +143,43 @@ bool PersonManager::remove_type_by_cpf(const std::string& cpf, const std::string
 /*    return removed_any;*/
 /*}*/
 
+// thought of a better way to implement.
+/*bool PersonManager::remove_all_by_type(const std::string& type) {*/
+/*    bool removed_any = false;*/
+/*    bool found;*/
+/**/
+/*    do {*/
+/*        found = false;*/
+/*        int i = 0;*/
+/*        for (auto it = people.begin(); it != people.end(); ++it, ++i) {*/
+/*            if ((*it)->get_type() == type) {*/
+/*                people.remove_by_index(i);*/
+/*                found = true;*/
+/*                removed_any = true;*/
+/*                break;  // this break is actually essential, idk how to remove this...*/
+/*            }*/
+/*        }*/
+/*    } while (found);  // did double loop siunce my previous attempt ^ up there is not working.*/
+/**/
+/*    return removed_any;*/
+/*}*/
+
+// needs a new list function though, have it added it now after deliver.
 bool PersonManager::remove_all_by_type(const std::string& type) {
     bool removed_any = false;
-    bool found;
-    
-    do {
-        found = false;
-        int i = 0;
-        for (auto it = people.begin(); it != people.end(); ++it, ++i) {
-            if ((*it)->get_type() == type) {
-                people.remove_by_index(i);
-                found = true;
-                removed_any = true;
-                break;  // this break is actually essential, idk how to remove this...
-            }
+
+    for (auto it = people.begin(); it != people.end(); ) {
+        if ((*it)->get_type() == type) {
+            it = people.remove(it); // Remove returns a valid iterator to the next element
+            removed_any = true;
+        } else {
+            ++it; // Advance the iterator only if no removal
         }
-    } while (found);  // did double loop siunce my previous attempt ^ up there is not working.
-    
+    }
+
     return removed_any;
 }
+
 
 bool PersonManager::remove_all() {
     while(people.pop());

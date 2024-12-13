@@ -54,6 +54,8 @@ class List {
                 bool operator!=(const Iterator& other) const;
 
                 T* next();
+
+                friend class List;
         };
 
         // Public List Methods
@@ -77,6 +79,8 @@ class List {
         nodeptr find_by_value(const T& val, Comparator comp = Comparator());
         template<typename Comparator = std::equal_to<T>>
         bool remove_by_value(const T& val, Comparator comp = Comparator());
+
+        typename List<T>::Iterator remove(Iterator it);
 
         template<typename Formatter = std::function<void (const T&)>>
         void print(Formatter fmt = [](const T& val) { std::cout << val; });
@@ -232,7 +236,6 @@ bool List<T>::push(T obj) {
             newNode->prev = tail;
             newNode->next = head;
             head->prev = newNode;
-        }
         res = true;
     }
     return res;
@@ -288,6 +291,17 @@ bool List<T>::Iterator::operator==(const Iterator& other) const {
 template<typename T>
 bool List<T>::Iterator::operator!=(const Iterator& other) const {
     return pos != other.pos;
+}
+
+template<typename T>
+typename List<T>::Iterator List<T>::remove(Iterator it) {
+    if (it == end()) return end();
+
+    nodeptr to_remove = it.current;
+    Iterator next(it.current->next, it.pos + 1, it.list_size);
+
+    remove_node(to_remove);
+    return next;
 }
 
 template<typename T>
