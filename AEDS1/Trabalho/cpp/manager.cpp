@@ -131,13 +131,20 @@ bool PersonManager::remove_type_by_cpf(const std::string& cpf, const std::string
 }
 
 // previous attempt didnt work...
+// revising this code, i believe i can make it work by manually increment my iterator
 /*bool PersonManager::remove_all_by_type(const std::string& type) {*/
 /*    auto comparator = Person::compare_by_type(type);*/
 /*    bool removed_any = false;*/
 /**/
 /*    // Keep removing while we can find matches*/
-/*    while (people.remove_by_value(nullptr, comparator)) {*/
-/*        removed_any = true;*/
+/*    int i = 0;*/
+/*    for (auto it = people.begin(); it != people.end(); i++) {*/
+/*        auto next = it.next();*/
+/*        if ((*it)->get_type() == type) {*/
+/*            people.remove_by_index(i);*/
+/*            removed_any = true;*/
+/*        } */
+/*        it = next;*/ // cant do this, needs to overload the equal_to
 /*    }*/
 /**/
 /*    return removed_any;*/
@@ -164,16 +171,18 @@ bool PersonManager::remove_type_by_cpf(const std::string& cpf, const std::string
 /*    return removed_any;*/
 /*}*/
 
-// needs a new list function though, have it added it now after deliver.
+//using new list function
 bool PersonManager::remove_all_by_type(const std::string& type) {
     bool removed_any = false;
 
     for (auto it = people.begin(); it != people.end(); ) {
         if ((*it)->get_type() == type) {
-            it = people.remove(it); // Remove returns a valid iterator to the next element
+            // remove returns end() or does next()
+            it = people.remove(it);
             removed_any = true;
         } else {
-            ++it; // Advance the iterator only if no removal
+            // manually increment the iterator in case we didnt need to delete this.
+            ++it;
         }
     }
 

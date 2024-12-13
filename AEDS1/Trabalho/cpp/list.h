@@ -236,7 +236,8 @@ bool List<T>::push(T obj) {
             newNode->prev = tail;
             newNode->next = head;
             head->prev = newNode;
-        res = true;
+            res = true;
+        }
     }
     return res;
 }
@@ -258,7 +259,6 @@ void List<T>::print(Formatter fmt) {
 }
 
 // Iterators implementation
-
 template<typename T>
 T& List<T>::Iterator::operator*() {
     return current->data;
@@ -298,7 +298,8 @@ typename List<T>::Iterator List<T>::remove(Iterator it) {
     auto ret = end();
     if (it != end()) {
         nodeptr to_remove = it.current;
-        ret = Iterator next(it.current->next, it.pos + 1, it.list_size);
+        Iterator next(it.current->next, it.pos + 1, it.list_size);
+        ret = next;
 
         remove_node(to_remove);
     }
