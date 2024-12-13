@@ -295,13 +295,14 @@ bool List<T>::Iterator::operator!=(const Iterator& other) const {
 
 template<typename T>
 typename List<T>::Iterator List<T>::remove(Iterator it) {
-    if (it == end()) return end();
+    auto ret = end();
+    if (it != end()) {
+        nodeptr to_remove = it.current;
+        ret = Iterator next(it.current->next, it.pos + 1, it.list_size);
 
-    nodeptr to_remove = it.current;
-    Iterator next(it.current->next, it.pos + 1, it.list_size);
-
-    remove_node(to_remove);
-    return next;
+        remove_node(to_remove);
+    }
+    return ret;
 }
 
 template<typename T>
