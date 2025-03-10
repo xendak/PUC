@@ -1,23 +1,29 @@
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class AnagramChecker {
-
-    // Method to check if two strings are anagrams
     public static boolean checkAnagrams(String str1, String str2) {
-        str1 = str1.replace(" ", "");
-        str2 = str2.replace(" ", "");
-        
-        //if (str1.length() != str2.length()) {
-        //    return false;
-        //}
+        str1 = str1.replaceAll("\\s", "").toLowerCase();
+        str2 = str2.replaceAll("\\s", "").toLowerCase();
+        String bStr, sStr;
 
-        char[] charArray1 = str1.toCharArray();
-        char[] charArray2 = str2.toCharArray();
-        Arrays.sort(charArray1);
-        Arrays.sort(charArray2);
+        if (str1.length() >= str2.length()) {
+            bStr = str1;
+            sStr = str2;
+        } else {
+            bStr = str2;
+            sStr = str1;
+
+        }
+        for (int i = 0; i < bStr.length(); i++) {
+            //sStr = sStr.replaceFirst(Pattern.quote("" + bStr.charAt(i)), "");
+            // this can be done without the pattern, but then we lose the control
+            // over regex MATCHES like * or .
+            sStr = sStr.replaceFirst("" + bStr.charAt(i), "");
+        }
         
-        return Arrays.equals(charArray1, charArray2);
+        return sStr.equals("");
     }
 
     public static void main(String[] args) {
