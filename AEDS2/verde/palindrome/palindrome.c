@@ -32,12 +32,16 @@ int main() {
             line[--len] = '\0';
         }
 
-        // handle edge
+        // handle edge cases, UTF shit. ç (0xC3 0x87)
+        // first we check if we have enough space to store the string itself if we convert
+        // the multi bytes properly.
         size_t wlen = mbstowcs(NULL, line, 0);
         if (wlen == (size_t)-1) {
             printf("NAO\n");
             continue;
-        }        
+        }
+        // here we convert multi to wide character (wchar) so that we can properly handle
+        // the string check
         wchar_t *utf_line = (wchar_t *)malloc((wlen + 1) * sizeof(wchar_t));
         if (!utf_line) {
             printf("NAO\n");
