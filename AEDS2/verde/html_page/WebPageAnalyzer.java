@@ -83,7 +83,8 @@ public class WebPageAnalyzer {
         int consonantCount = 0;
 
         for (char c : content.toCharArray()) {
-            char cLower = Character.toLowerCase(c);
+            char cLower = Character.toLowerCase(c); // nao estou afim de fazer 2x comparacoes atoa. e eu n sei fazer
+                                                    // essa funcao para UTF_8
             switch (cLower) {
                 case 'a': a++; break;
                 case 'e': e++; break;
