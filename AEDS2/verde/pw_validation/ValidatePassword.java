@@ -1,6 +1,22 @@
 import java.util.Scanner;
 
 public class ValidatePassword {
+
+    // ascii 0-127
+    // 'A' - 'Z'
+    // 'a' - 'z'
+    // digit 0123456789
+    // else special
+    public static boolean myIsUpperCase(Character c) {
+        return c >= 'A' && c <= 'Z';
+    }
+    public static boolean myIsLowerCase(Character c) {
+        return c >= 'a' && c <= 'z';
+    }
+    public static boolean myIsDigit(Character c) {
+        return (int) c >= 48 && (int) c <= 57;
+    }
+
     public static boolean validatePassword(String pw) {
         boolean hasLength  = pw.length() > 8;
         boolean hasUpper   = false;
@@ -9,9 +25,9 @@ public class ValidatePassword {
         boolean hasSpecial = false;
 
         for (char c : pw.toCharArray()) {
-            if (Character.isUpperCase(c)) { hasUpper = true; }
-            else if (Character.isLowerCase(c)) { hasLower = true; }
-            else if (Character.isDigit(c)) { hasNumber = true; }
+            if (myIsUpperCase(c)) { hasUpper = true; }
+            else if (myIsLowerCase(c)) { hasLower = true; }
+            else if (myIsDigit(c)) { hasNumber = true; }
             else { hasSpecial = true; }
         }
 

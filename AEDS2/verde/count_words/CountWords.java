@@ -3,13 +3,12 @@ import java.util.Scanner;
 public class CountWords {
 
     public static int countWords(String str) {
-        str = str.trim();
-        if (str.isEmpty()) {
-            return 0;
+        int words = 1;
+        for (int i = 0; i < str.length(); i++) {
+            words = str.charAt(i) == ' ' ? words + 1 : words;
         }
         
-        String[] words = str.split("\\s+");
-        return words.length;
+        return words;
     }
 
     public static void main(String[] args) {

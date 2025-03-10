@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class LongestUniqueSubstring {
     private static int longestUniqueSubstring(String s) {
-        boolean[] seen = new boolean[128]; // For ASCII characters
+        boolean[] seen = new boolean[128]; // ascii 0-127
         int maxLength = 0;
         int start = 0;
 
