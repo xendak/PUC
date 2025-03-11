@@ -1,60 +1,39 @@
 import java.util.Scanner;
-public class CheckString {
+public class RecursiveCheckString {
 
     public static boolean[] validateString(String str) {
         boolean[] res = { true, true, true, true };
 
-        res[0] = myIsVowel(str);
-        res[1] = myIsConsonant(str);
-        res[2] = myIsDigit(str);
-        res[3] = myIsNumber(str);
+        res[0] = myIsVowel(str, 0);
+        res[1] = myIsConsonant(str, 0);
+        res[2] = myIsDigit(str, 0);
+        res[3] = myIsNumber(str, 0);
 
         return res;
     }
 
-    public static boolean myIsConsonant(String str) {
-        boolean res = false;
+    public static boolean myIsConsonant(String str, int i) {
+        if (i >= str.length()) { return true; }
+        return checkConsonant(str.charAt(i), 0) && myIsConsonant(str, i + 1);
+    }
+
+    public static boolean checkConsonant(Character c, int i) {
         String cts = "bcdfghjklmnpqrstvwxyzçBCDFGHJKLMNPQRSTVWXYZÇ";
-        for (int i = 0; i < str.length(); i++) {
-            boolean aux = false;
-            if (res) {
-                for (int j = 0; j < cts.length(); j++) {
-                    if (str.charAt(i) == cts.charAt(j)) {
-                        aux = true;
-                    }
-                }
-            }
-            if (aux == false) {
-                // we went through everything and didnt find a match for
-                // this character, therefore it can't be all consonant.
-                // return / break here would also work.
-                res = false;
-            }
-        }
-        return res;
+        if (i >= cts.length()) { return false; }
+        return (c == cts.charAt(i)) || checkConsonant(c, i + 1);
     }
 
-    public static boolean myIsVowel(String str) {
-        boolean res = true;
-        String vws = "aeiouAEIOU";//ÁÉíáéÍóÓàÀêÊãÃÂÔÕâôõ";
-        for (int i = 0; i < str.length(); i++) {
-            boolean aux = false;
-            if (res) {
-                for (int j = 0; j < vws.length(); j++) {
-                    if (str.charAt(i) == vws.charAt(j)) {
-                        aux = true;
-                    }
-                }
-            }
-            if (aux == false) {
-                // we went through everything and didnt find a match for
-                // this character, therefore it can't be all consonant.
-                // return / break here would also work.
-                res = false;
-            }
-        }
-        return res;
+    public static boolean myIsVowel(String str, int i) {
+        if (i >= str.length()) { return true; }
+        return checkVowel(str.charAt(i), 0) && myIsVowel(str, i + 1);
     }
+
+    public static boolean checkVowel(Character c, int i) {
+        String vws = "aeiouAEIOUÁÉíáéÍóÓàÀêÊãÃÂÔÕâôõ";
+        if (i >= vws.length()) { return false; }
+        return (c == vws.charAt(i)) || checkVowel(c, i + 1);
+    }
+
     public static boolean myIsDigit(String str) {
         boolean res = true;
         for (int i = 0; i < str.length(); i++) {
