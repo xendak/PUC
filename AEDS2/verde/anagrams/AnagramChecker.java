@@ -36,7 +36,7 @@ public class AnagramChecker {
             String str2 = words[1].trim();
 
             boolean result = checkAnagrams(str1, str2);
-            System.out.println(result ? "SIM" : "NAO");
+            System.out.println(result ? "SIM" : "NÃO");
         }
 
         scanner.close();

@@ -3,10 +3,13 @@ import java.util.Scanner;
 public class DigitSum {
 
     public static int sumDigits(int number) {
-        if (number == 0) {
-            return 0;
+        int res = 0;
+        
+        while(number > 0) {
+            res += number % 10;
+            number = number / 10;
         }
-        return number % 10 + sumDigits(number / 10);
+        return res;
     }
 
     public static void main(String[] args) {

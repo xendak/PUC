@@ -42,7 +42,7 @@ public class ValidatePassword {
         String line;
         while (!(line = scanner.nextLine()).equals("FIM")) {
             boolean result = validatePassword(line);
-            System.out.println(result ? "SIM" : "NÃO");
+            System.out.println(result ? "SIM" : "NAO");
         }
         scanner.close();
     }

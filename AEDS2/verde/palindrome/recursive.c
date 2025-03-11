@@ -14,9 +14,8 @@ int rec_palindrome(const wchar_t *str, int i, int sz, int pal) {
 int is_palindrome(const wchar_t *str) {
     int sz = wcslen(str) - 1;
     int pal = 1;
-    int i = 0;
 
-    pal = rec_palindrome(str, i, sz, pal);
+    pal = rec_palindrome(str, 0, sz, pal);
     return pal;
 }
 
