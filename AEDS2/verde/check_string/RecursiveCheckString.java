@@ -7,7 +7,7 @@ public class RecursiveCheckString {
         res[0] = myIsVowel(str, 0);
         res[1] = myIsConsonant(str, 0);
         res[2] = myIsDigit(str, 0);
-        res[3] = myIsNumber(str, 0);
+        res[3] = myIsNumber(str, 0, false);
 
         return res;
     }
@@ -34,36 +34,26 @@ public class RecursiveCheckString {
         return (c == vws.charAt(i)) || checkVowel(c, i + 1);
     }
 
-    public static boolean myIsDigit(String str) {
-        boolean res = true;
-        for (int i = 0; i < str.length(); i++) {
-            Character c = str.charAt(i);
-            if (!((int) c >= 48 && (int) c <= 57)) {
-                res = false;
-            }
-        }
-        return res;
+    public static boolean myIsDigit(String str, int i) {
+        if (i >= str.length()) { return true; }
+        Character c = str.charAt(i);
+        if ((int) c < 47 || (int) c > 57) { return false; }
+        return myIsDigit(str, i+1);
+
     }
 
-    public static boolean myIsNumber(String str) {
-        boolean res = true;
-        boolean hasDot = false;
-        for (int i = 0; i < str.length(); i++) {
-            Character c = str.charAt(i);
-            boolean isDigit = (int) c >= 48 && (int) c <= 57;
-            boolean isCommaDot = (int) c == 44 || (int) c == 46;
-            if (hasDot) { // comma and dot ascii
-                //System.out.println(c + "\tCommaDot? " + isCommaDot + "\tisDigit? " + isDigit + "\thasDot? " + hasDot);
-                if (!isDigit || isCommaDot) { // already saw a dot before, therefore we can't have anymore, therefore its not a number anymore.
-                    res = false;
-                }
-            } else if (!isDigit || isCommaDot) {
-                hasDot = true;
-                continue;
-            }
-        }
-        return res;
+    public static boolean myIsNumber(String str, int i, boolean hasDot) {
+        if (i >= str.length()) { return true; }
 
+        Character c = str.charAt(i);
+        boolean isDigit = (int) c >= 48 && (int) c <= 57;
+        boolean isCommaDot = (int) c == 44 || (int) c == 46;
+
+        if (!hasDot && isCommaDot) { return myIsNumber(str, i+1, true); }
+        if (hasDot && !isDigit) { return false; }
+        else if (!hasDot && !isDigit && !isCommaDot) { return false; }
+
+        return myIsNumber(str, i+1, hasDot);
     }
 
     public static void main(String[] args) {
