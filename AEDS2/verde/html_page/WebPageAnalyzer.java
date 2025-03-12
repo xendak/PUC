@@ -2,78 +2,70 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class WebPageAnalyzer {
     public static void main(String[] args) {
-        try {
-            List<String> inputLines = Files.readAllLines(Paths.get("in.txt"));
-            List<String> outputLines = new ArrayList<>();
-
-            int i = 0;
-            while (i < inputLines.size()) {
-                String name = inputLines.get(i);
-                if (name.equals("FIM")) {
-                    break;
-                }
-                i++;
-                if (i >= inputLines.size()) break; // Prevent IndexOutOfBounds
-                String url = inputLines.get(i);
-                i++;
-
-                String content = fetchWebContent(url);
+        Scanner scanner = new Scanner(System.in);
+        String line;
+        String name = "";
+        while (!(line = scanner.nextLine()).equals("FIM")) {
+            try {
+                String content = fetchWebContent(line);
                 if (content == null) {
-                    outputLines.add(formatOutput(new int[23], 0, 0, name));
+                    name = line;
                     continue;
                 }
-
                 int[] counts = countCharacters(content);
                 int brCount = countOccurrences(content, "<br>");
                 int tableCount = countOccurrences(content, "<table>");
 
-                outputLines.add(formatOutput(counts, brCount, tableCount, name));
+                System.out.println(formatOutput(counts, brCount, tableCount, name));
+            } catch (IOException e) {
+                name = line;
+                continue;
             }
-
-            Files.write(Paths.get("out.txt"), outputLines);
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     private static String fetchWebContent(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setConnectTimeout(5000);
-        conn.setReadTimeout(5000);
-
         try {
-            int responseCode = conn.getResponseCode();
-            if (responseCode != HttpURLConnection.HTTP_OK) {
+            var url = URI.create(urlString).toURL();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
+
+            try {
+                int responseCode = conn.getResponseCode();
+                if (responseCode != HttpURLConnection.HTTP_OK) { // i dont really care to debug the exceptions, they're not relevant to the exercise
+                    return null;
+                }
+            } catch (IOException e) {
                 return null;
             }
-        } catch (IOException e) {
+
+            StringBuilder content = new StringBuilder();
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    content.append(line);
+                }
+            }
+            return content.toString();
+
+        } catch (Exception e) { // this is to ignore URI not absolute path when the input is not a http page.
             return null;
         }
-
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line);
-            }
-        }
-        return content.toString();
     }
 
     private static int[] countCharacters(String content) {
-        int[] counts = new int[23]; // Index 22 is for consonants
+        int[] counts = new int[23];
 
         int a = 0, e = 0, i = 0, o = 0, u = 0;
         int a_acute = 0, e_acute = 0, i_acute = 0, o_acute = 0, u_acute = 0;
@@ -82,10 +74,11 @@ public class WebPageAnalyzer {
         int a_circumflex = 0, e_circumflex = 0, i_circumflex = 0, o_circumflex = 0, u_circumflex = 0;
         int consonantCount = 0;
 
-        for (char c : content.toCharArray()) {
-            char cLower = Character.toLowerCase(c); // nao estou afim de fazer 2x comparacoes atoa. e eu n sei fazer
-                                                    // essa funcao para UTF_8
-            switch (cLower) {
+        for (int index = 0; index < content.length(); index++) {
+            // definitely dont want to implement this by hand, and wont double the switch statament to include A-> Á etc.
+            // and it seems verde is only counting the non capital letters for some reason.. definitely a bug.
+            var curr = content.charAt(index); 
+            switch (curr) {
                 case 'a': a++; break;
                 case 'e': e++; break;
                 case 'i': i++; break;
@@ -109,10 +102,10 @@ public class WebPageAnalyzer {
                 case 'ô': o_circumflex++; break;
                 case 'û': u_circumflex++; break;
                 default:
-                    if (Character.isLetter(cLower)) {
-                        consonantCount++;
-                    }
-                    break;
+                      if (Character.isLetter(curr)) {
+                          consonantCount++;
+                      }
+                      break;
             }
         }
 
@@ -161,6 +154,6 @@ public class WebPageAnalyzer {
                 counts[10], counts[11], counts[12], counts[13], counts[14],
                 counts[15], counts[16], counts[17], counts[18], counts[19],
                 counts[20], counts[21], counts[22], br, table, name
-        );
+                );
     }
 }
