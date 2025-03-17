@@ -1,31 +1,32 @@
 import java.util.*;
 import java.util.regex.*;
 
-public class BooleanExpressionEvaluator {
+public class algebra {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        while (scanner.hasNextLine()) {
-            int n = scanner.nextInt();
-            try {
-                boolean[] values = new boolean[n];
-                for (int i = 0; i < n; i++) {
-                    values[i] = scanner.nextInt() == 1 ? true : false;
-                }
-                String expression = scanner.nextLine();
-                System.out.println(expression);
-
-                boolean result = evaluateExpression(expression, values);
-                System.out.println(result ? "1" : "0");
-            } catch (Exception e) {
-                continue;
+        int n = scanner.nextInt();
+        int line = 1;
+        while (n > 0) {
+            boolean[] values = new boolean[n];
+            for (int i = 0; i < n; i++) {
+                values[i] = scanner.nextInt() == 1 ? true : false;
             }
+            String expression = scanner.nextLine();
+
+            //System.out.println(line + " " +expression);
+            boolean result = evaluateExpression(expression, values);
+
+            System.out.println(result ? "1" : "0");
+            line++;
+            n = scanner.nextInt();
         }
         scanner.close();
     }
 
     private static boolean evaluateExpression(String expression, boolean[] values) {
         StringBuilder result = new StringBuilder();
+        //System.out.println(expression);
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
             if (c >= 'A' && c <= 'Z') {
@@ -38,14 +39,14 @@ public class BooleanExpressionEvaluator {
                 result.append(c);
             }
         }
-        System.out.println(result.toString());
+        //System.out.println(result.toString());
         return evaluate(result.toString());
     }
 
 
     private static boolean evaluate(String expression) {
         List<String> tokens = tokenize(expression);
-        System.out.println("t: " + tokens);
+        //System.out.println("t: " + tokens);
         Stack<Boolean> stack = new Stack<>();
         Stack<String> operators = new Stack<>();
 
@@ -58,11 +59,13 @@ public class BooleanExpressionEvaluator {
                 // .peek() just returns last element.
                 // doo all operations until the matching (, by popping from operators stack.
                 while (!operators.isEmpty() && !operators.peek().equals("(")) {
-                    System.out.println("Apply: " + operators + "\tstack = " + stack);
+                    //System.out.println("apply: " + operators + "\tstack = " + stack);
                     applyOperator(operators.pop(), stack);
                 }
                 // remove the trailing ), we're done with this () set.
                 operators.pop();
+            } else if (token.equals(",")) {
+                // Ignore commas
             } else if (isOperator(token)) {
                 // check for and/not/or, if so add to operators stack
                 operators.push(token);
@@ -70,11 +73,11 @@ public class BooleanExpressionEvaluator {
                 // might as well try to debug
                 throw new IllegalArgumentException("Unknown token: " + token);
             }
-            System.out.println(operators);
+            //System.out.println(operators);
         }
 
         while (!operators.isEmpty()) {
-            System.out.println("FinalApply: " + operators + "\tstack = " + stack);
+            //System.out.println("FinalApply: " + operators + "\tstack = " + stack);
             applyOperator(operators.pop(), stack);
         }
 
@@ -82,6 +85,7 @@ public class BooleanExpressionEvaluator {
         return stack.pop();
     }
 
+    // TODO: add a count of paremeters for each parenthesis so we can use the stack properly.
     private static List<String> tokenize(String expr) {
         List<String> tokens = new ArrayList<>();
         StringBuilder currentToken = new StringBuilder();
@@ -93,7 +97,7 @@ public class BooleanExpressionEvaluator {
             // we save current tokenString and then we ()
             // as a new entry by itself.
             // "and(" becomes "and" and "("
-            if (c == '(' || c == ')') {
+            if (c == '(' || c == ')' || c == ',') {
                 if (currentToken.length() > 0) {
                     tokens.add(currentToken.toString());
                     currentToken.setLength(0);
@@ -102,7 +106,7 @@ public class BooleanExpressionEvaluator {
             // if we dont really care about the next term, i.e 
             // space or commas, then we just append our current token string
             // and proceed the loop without adding the specific character.
-            } else if (c == ' ' || c == ',') {
+            } else if (c == ' ') {
                 if (currentToken.length() > 0) {
                     tokens.add(currentToken.toString());
                     currentToken.setLength(0);
@@ -131,20 +135,20 @@ public class BooleanExpressionEvaluator {
     private static void applyOperator(String op, Stack<Boolean> stack) {
         if (op.equals("not")) {
             boolean a = stack.pop();
-            System.out.println("op = " + op + "\t'A' = " + a + "\t'!A' = " + !a);
-            stack.push(!a);
+            //System.out.println("op = " + op + "\t'A' = " + a + "\t'!A' = " + !a);
+            stack.add(0, !a);
         } else if (op.equals("and")) {
             boolean b = stack.pop();
             boolean a = stack.pop();
             boolean c = a && b;
-            System.out.println("op = " + op + "\t'A' = " + a + "\t'B' = " + b + "\t'A && B' = " + c);
-            stack.push(c);
+            //System.out.println("op = " + op + "\t'A' = " + a + "\t'B' = " + b + "\t'A && B' = " + c);
+            stack.add(0, c);
         } else if (op.equals("or")) {
             boolean b = stack.pop();
             boolean a = stack.pop();
             boolean c = a || b;
-            System.out.println("op = " + op + "\t'A' = " + a + "\t'B' = " + b + "\tA || B = " + c);
-            stack.push(c);
+            //System.out.println("op = " + op + "\t'A' = " + a + "\t'B' = " + b + "\tA || B = " + c);
+            stack.add(0, c);
         } else {
             throw new IllegalArgumentException("Unknown operator: " + op);
         }

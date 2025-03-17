@@ -103,3 +103,4 @@
 3 1 1 0 or(and(A , B , C) , and(A , not(B) , not(and(not(A) , not(C)))))
 3 1 1 1 or(and(A , B , C) , and(A , not(B) , not(and(not(A) , not(C)))))
 0
+
