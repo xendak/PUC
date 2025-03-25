@@ -111,7 +111,7 @@ public class medal {
             StringBuilder aux = new StringBuilder();
             int spaceCount = 0;
             int medals = 0;
-            System.out.println(line + ": " + start + ": " + line.charAt(8));
+            //System.out.println(line + ": " + start + ": " + line.charAt(8));
             for (int i = 0; i < line.length(); i++) {
                 Character c = line.charAt(i);
                 if (c == ' ' && spaceCount == 0) {
@@ -121,10 +121,10 @@ public class medal {
                     res[medals] = Integer.parseInt(aux.toString());   // toNumber(aux.toString());
                     medals++;
                     aux.setLength(0);
-                } else if (spaceCount > 0)
+                } else if (spaceCount > 0 && c != ' ')
                     aux.append(c);
             }
-            res[medals] = toNumber(aux.toString());
+            res[medals] = Integer.parseInt(aux.toString()); //toNumber(aux.toString());
             return res;
     }
 
