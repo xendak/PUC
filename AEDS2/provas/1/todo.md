@@ -4,9 +4,9 @@
 - [ ] user proper struct to hold the terms (does java have struct? or need to use classes.)
 - [ ] implement a proper lineParsing
 - [ ] after we do our proper lineParse, then we need to actually use java inbuilt ones so i can learn.
-- [x] finished implementing in C.
+- [x] finished implementing in C with generic types.
 # Q2
-- maybe we can try removing the strict checking? and do a heuristic? we don't really need to check all chars.
+- [x] implement everything by ourselves, no string lib calls.
 
 
 # in C lets try more stuff.
