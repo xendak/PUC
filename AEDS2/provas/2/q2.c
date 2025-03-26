@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #define POINT_SIZE 10
 
 typedef struct {
@@ -15,6 +14,33 @@ typedef struct {
   int rounds;
   char result;
 } game;
+
+game new_game(int rounds, char* name1, char* name2);
+void compute_game(game *game);
+void compute_player(player *p, int rounds);
+
+
+int main() {
+  int rounds;
+  do {
+    if (scanf("%d", &rounds) != 1)
+      return -1; // failed to read value so force exit
+
+    game match = new_game(rounds, "Mark", "Leti");
+    int pt;
+
+    compute_player(&match.p1, rounds);
+    compute_player(&match.p2, rounds);
+
+    compute_game(&match);
+    if (match.rounds > 0)
+      printf("%c\n", match.result);
+      // printf("%c\t p1: %d\tp2: %d", match.result, match.p1.score, match.p2.score);
+
+    // we dont need to free anything since everything is static allocated.
+  } while (rounds != 0);
+  return 0;
+}
 
 game new_game(int rounds, char *name1, char *name2) {
   game res;
@@ -69,26 +95,4 @@ void compute_player(player *p, int rounds) {
     if (p->points[pt % 10] > 2 && p->same_monster_bonus == -1)
       p->same_monster_bonus = i;
   }
-}
-
-int main() {
-  int rounds;
-  do {
-    if (scanf("%d", &rounds) != 1)
-      return -1; // failed to read value so force exit
-
-    game match = new_game(rounds, "Mark", "Leti");
-    int pt;
-
-    compute_player(&match.p1, rounds);
-    compute_player(&match.p2, rounds);
-
-    compute_game(&match);
-    if (match.rounds > 0)
-      printf("%c\n", match.result);
-      // printf("%c\t p1: %d\tp2: %d", match.result, match.p1.score, match.p2.score);
-
-    // we dont need to free anything since everything is static allocated.
-  } while (rounds != 0);
-  return 0;
 }
