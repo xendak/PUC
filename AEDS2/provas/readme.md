@@ -13,6 +13,6 @@
 - [x] Bakugan, c.
 
 #### 3
-- [ ] Meu Avô é Famoso, java.
-- [ ] Perguntas mais Frequentes, c.
+- [x] Meu Avô é Famoso, java.
+- [x] Perguntas mais Frequentes, c.
 
