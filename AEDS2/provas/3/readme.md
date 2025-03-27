@@ -9,9 +9,9 @@ Tendo muitos amigos que também estavam competindo com ele, meu avô está extre
 
 A entrada contém diversos casos de teste. Jogadores são identificados por inteiros de 1 a 10000. A primeira linha de um caso de teste contém dois inteiros N e M, indicando, respectivamente, o número de rankings disponíveis (2 ≤ N ≤ 500) e o número de jogadores em cada ranking (2 ≤ M ≤ 500). Cada uma das próximas N linhas contém a descrição de um ranking semanal. Cada descrição é composta por uma sequência de M inteiros, separados por um espaço em branco, identificando os jogadores que apareceram naquele ranking semanal. Você pode assumir que:
 
-    em cada caso de teste há exatamente um melhor jogador e ao menos um segundo melhor jogador,
-    cada ranking semanal consiste de M jogadores distintos.
-    O final da entrada é indicado por N = M = 0.
+- Em cada caso de teste há exatamente um melhor jogador e ao menos um segundo melhor jogador,
+- Cada ranking semanal consiste de M jogadores distintos.
+- O final da entrada é indicado por N = M = 0.
 
 ### Saída
 
