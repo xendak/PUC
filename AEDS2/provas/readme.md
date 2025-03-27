@@ -1,7 +1,11 @@
 # Provas no Verde.
 
-- Entradas q1.in e q2.in
-- Saidas q1.out e q2.out
+- Entradas:
+  - q1.in
+  - q2.in
+- Saidas
+  - q1.out
+  - q2.out
 
 ## Resumo
 #### 1
