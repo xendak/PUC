@@ -10,14 +10,16 @@ experimentos que foram realizados, o tipo de cobaia utilizada e a quantidade de
 cobaias utilizadas em cada experimento.
 
 
-Entrada A primeira linha de entrada contém um valor inteiro N que indica os
+### Entrada
+A primeira linha de entrada contém um valor inteiro N que indica os
 vários casos de teste que vem a seguir. Cada caso de teste contém um inteiro
 Quantia (1 ≤ Quantia ≤ 15) que representa a quantidade de cobaias utilizadas e
 um caractere Tipo ('C', 'R' ou 'S'), indicando o tipo de cobaia (R:Rato S:Sapo
 C:Coelho).
 
 
-Saída Apresente o total de cobaias utilizadas, o total de cada tipo de cobaia
+### Saída
+Apresente o total de cobaias utilizadas, o total de cada tipo de cobaia
 utilizada e o percentual de cada uma em relação ao total de cobaias utilizadas,
 sendo que o percentual deve ser apresentado com dois dígitos após o ponto.
 
@@ -43,7 +45,8 @@ extras. O vencedor do jogo é o jogador que acumular mais pontos. Por favor ajud
 Mark e Leti anunciar o vencedor do jogo!
 
 
-Entrada Cada caso de testo é descrito por três linhas. A primeira linha contém
+### Entrada
+Cada caso de testo é descrito por três linhas. A primeira linha contém
 um inteiro R indicando o número de rodadas do jogo (1 ≤ R ≤ 10). A segunda linha
 contém R inteiros Mi indicando os monstros liberados por Mark a cada rodada (1 ≤
 Mi ≤ 10, para 1 ≤ i ≤ R). A terceira linha contém R inteiros Li indicando os
@@ -51,8 +54,8 @@ monstros liberados por Leti a cada rodada (1 ≤ Li ≤ 10, para 1 ≤ i ≤ R).
 
 O último caso de teste é composto por uma linha contendo zero.
 
-
-Saída Para cada caso de teste imprima uma linha com um caractere representando o
+### Saída
+Para cada caso de teste imprima uma linha com um caractere representando o
 resultado do jogo: "M" caso o vencedor seja Mark, "L" caso o vencedor seja Leti,
 ou "T" caso haja um empate (tie).
 

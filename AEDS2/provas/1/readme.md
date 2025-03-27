@@ -4,10 +4,10 @@ Entrada e Saida Q(x).in e Q(x).out
 ## Q1
 Alguém deixou o quadro de medalhas das olimpíadas fora de ordem. Seu programa deve colocá-lo na ordem correta. A ordem dos países no quadro de medalhas é dada pelo número de medalhas de ouro. Se há empate em medalhas de ouro, a nação que tiver mais medalhas de prata fica a frente. Havendo empate em medalhas de ouro e prata, fica mais bem colocado o país com mais medalhas de bronze. Se dois ou mais países empatarem nos três tipos de medalhas, seu programa deve mostrá-los em ordem alfabética.
 
-#### Entrada
+### Entrada
 A entrada é dada pelo número de países participantes N (0 ≤ N ≤ 500) seguido pela lista dos países, com suas medalhas de ouro O (0 ≤ O ≤ 10000), prata P (0 ≤ P ≤ 10000) e bronze B (0 ≤ B ≤ 10000).
 
-#### Saída
+### Saída
 A saída deve ser a lista de países, com suas medalhas de ouro, prata e bronze, na ordem correta do quadro de medalhas, com as nações mais premiadas aparecendo primeiro.
 
 ## Q2
@@ -35,10 +35,10 @@ O Departamento Nacional de Trânsito identificou que seus funcionários gastam m
 
 Por isso, eles pediram sua ajuda para automatizar o processo: dada uma placa formada por uma sequência de letras maiúsculas, dígitos e hífens, determine se a placa está no antigo padrão Brasileiro, está no novo padrão Mercosul, ou é uma placa falsificada.
 
-#### Entrada
+### Entrada
 A entrada é composta de uma única linha, contendo uma sequência de caracteres representando a placa a ser analisada.
 
-#### Saída
+### Saída
 Seu programa deverá imprimir uma linha contendo um único número inteiro:
 
     1, se a placa está no antigo padrão Brasileiro;
