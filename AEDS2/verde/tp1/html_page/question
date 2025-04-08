@@ -1,0 +1,4 @@
+Leia duas strings sendo que a primeira é o nome de uma página web e a segunda, seu endereço. Por exemplo, Pontifícia Universidade Católica de Minas Gerais e www.pucminas.br. Em seguida, mostre na tela o número de vogais (sem e com acento), consoantes e dos padrões <br> e <table> que aparecem no código dessa página. A entrada padrão é composta por várias linhas. Cada uma contém várias strings sendo que a primeira é um endereço web e as demais o nome dessa página web. A última linha da entrada padrão contém a palavra ``FIM''.
+
+
+A saída padrão contém várias linhas sendo que cada uma apresenta o número de ocorrência (valor $x_{i}$ entre parênteses) de cada caractere ou string solicitado. Cada linha de saída será da seguinte forma: a(x 1) e(x 2) i(x 3) o(x 4) u(x 5) á(x 6) é(x 7) í(x 8) ó(x 9) ú(x 10) à(x 11) è(x 12) ì(x 13) ò(x 14) ù(x 15) ã(x 16) õ(x 17) â(x 18) ê(x 19) î(x 20) ô(x 21) û(x 22) consoante(x 23) <br>(x 24) <table>(x 25) nomepágina(x 26).
