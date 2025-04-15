@@ -1,1 +1,0 @@
-Crie um método iterativo que recebe uma string como parâmetro e retorna o comprimento da substring mais longa sem caracteres repetidos. Na saída padrão, para cada linha de entrada, escreva uma linha de saída com o comprimento da substring mais longa sem repetição. Por exemplo, se a entrada for abcabcbb, a saída deve ser 3 (correspondendo à substring abc).

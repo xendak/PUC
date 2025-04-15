@@ -1,39 +1,75 @@
 {
-  description = "A Nix-flake-based Java development environment";
+  description = "Combined Java and C/C++ development environment";
 
-  inputs.nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1.*.tar.gz";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    utils.url = "github:numtide/flake-utils";
+  };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, utils, ... }:
     let
-      javaVersion = 23; # Change this value to update the whole stack
-
-      supportedSystems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forEachSupportedSystem = f: nixpkgs.lib.genAttrs supportedSystems (system: f {
-        pkgs = import nixpkgs { inherit system; overlays = [ self.overlays.default ]; };
-      });
+      javaVersion = 23; # JDK version for Java environment
     in
     {
-      overlays.default =
-        final: prev:
-        let
-          jdk = prev."jdk${toString javaVersion}";
-        in
-        {
-          maven = prev.maven.override { jdk_headless = jdk; };
-          gradle = prev.gradle.override { java = jdk; };
-          lombok = prev.lombok.override { inherit jdk; };
+      overlays.default = final: prev: let
+        jdk = prev."jdk${toString javaVersion}";
+      in {
+        inherit jdk;
+        maven = prev.maven.override { jdk_headless = jdk; };
+        gradle = prev.gradle.override { java = jdk; };
+        lombok = prev.lombok.override { inherit jdk; };
+      };
+    } // utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
         };
+        llvm = pkgs.llvmPackages_latest;
 
-      devShells = forEachSupportedSystem ({ pkgs }: {
-        default = pkgs.mkShell {
+        # Custom build script from C++ environment
+        mymake = pkgs.writeShellScriptBin "mk" ''
+          if [ -f "$1.c" ]; then
+            i="$1.c"
+            c=$CC
+          else
+            i="$1.cpp"
+            c=$CXX
+          fi
+          o=$1
+          shift
+          $c -ggdb $i -o $o -lm -Wall $@
+        '';
+      in
+      {
+        devShells.default = pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } rec {
           packages = with pkgs; [
-            gcc
-            gradle
+            # Java environment
             jdk
+            gradle
             maven
+            lombok
+            gcc
             ncurses
             patchelf
             zlib
+
+            # C/C++ environment
+            gnumake
+            cmake
+            bear
+            llvm.lldb
+            gdb
+            clang-tools
+            llvm.libstdcxxClang
+            cppcheck
+            llvm.libllvm
+            valgrind
+            mymake
+            llvm.libcxx
+            glm
+            SDL2
+            SDL2_gfx
           ];
 
           shellHook =
@@ -45,6 +81,6 @@
               export JAVA_TOOL_OPTIONS="${loadLombok}${prev}"
             '';
         };
-      });
-    };
+      }
+    );
 }
