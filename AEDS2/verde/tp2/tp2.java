@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.util.Stack;
 // import java.io.BufferedReader;
 // import java.io.FileReader;
 
@@ -95,6 +96,58 @@ public class tp2 {
     private int listed_in_capacity;
     private String description;
 
+    SHOW() {
+      this.show_id = "";
+      this.type = "";
+      this.title = "";
+      this.cast = new String[100];
+      this.cast_capacity = 0;
+      this.country = "";
+      this.date_added = LocalDate.now();
+      this.release_year = 0;
+      this.rating = "";
+      this.duration = "";
+      this.listed_in = new String[100];
+      this.listed_in_capacity = 0;
+      this.description = "";
+    }
+
+    SHOW(String show_id, String type, String title, String director,
+         String[] cast, String country, LocalDate date_added, int release_year, 
+         String rating, String duration, String[] listed_in, String description) {
+      this.show_id = show_id;
+      this.type = type;
+      this.title = title;
+      this.cast = cast;
+      this.cast_capacity = cast.length;
+      this.country = country;
+      this.date_added = date_added;
+      this.release_year = release_year;
+      this.rating = rating;
+      this.duration = duration;
+      this.listed_in = listed_in;
+      this.listed_in_capacity = listed_in.length;
+      this.description = description;
+    }
+
+    public SHOW clone() {
+        return new SHOW(
+            this.show_id, 
+            this.type, 
+            this.title, 
+            this.director,
+            this.cast, 
+            this.country, 
+            this.date_added, 
+            this.release_year, 
+            this.rating, 
+            this.duration, 
+            this.listed_in, 
+            this.description
+        );
+    }    
+    
+    
     public void setShowId(String show_id) {
       this.show_id = show_id;
     }
@@ -443,15 +496,9 @@ public class tp2 {
 
   // }
 
-  public static void main(String[] args) {
+  public static void q1(SHOW[] shows) {
     Scanner input = new Scanner(System.in);
-
-    String showFile = "/tmp/disneyplus.csv";
-
-    long n = countLines(showFile);
-
     String line = input.nextLine();
-    SHOW[] shows = parseFile(showFile, (int) n);
     do {
       int sid = Integer.parseInt(line.substring(1));
 
@@ -459,5 +506,51 @@ public class tp2 {
       line = input.nextLine();
     } while (!line.equals("FIM"));
     input.close();
+  }
+
+  public static boolean sequentialSearch(SHOW[] s, String line) {
+    for (int i = 0; i < s.length; i++) {
+      // System.out.println("sid: " + s[i].show_id + "s.title: " + s[i].title + "\nline: " + line);
+      if (s[i].title.compareTo(line) == 0) return true;      
+    }
+    return false;
+  }
+
+  public static void q2(SHOW[] shows) {
+    Scanner input = new Scanner(System.in);    
+    String line = input.nextLine();
+    Stack<Integer> temp = new Stack<Integer>();
+
+    
+    do {
+      int sid = Integer.parseInt(line.substring(1));
+      if (sid - 1 <= shows.length) { temp.push(sid-1); }
+      line = input.nextLine();
+    } while(!line.equals("FIM"));
+    line = input.nextLine();
+
+    
+    SHOW[] res = new SHOW[temp.size()]; 
+    int i = 0;
+    while(!temp.empty()) {
+      res[i++] = shows[temp.pop()].clone();
+    }
+    
+    	
+    do {
+      System.out.println(sequentialSearch(res, line) ? "SIM" : "NAO");     
+      line = input.nextLine();
+    } while (!line.equals("FIM"));
+    
+    input.close();
+  }
+  
+  public static void main(String[] args) {
+
+    String showFile = "/tmp/disneyplus.csv";
+
+    long n = countLines(showFile);
+    SHOW[] shows = parseFile(showFile, (int) n);
+    q2(shows);
   }
 }
