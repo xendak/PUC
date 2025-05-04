@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Stack;
-// import java.io.BufferedReader;
-// import java.io.FileReader;
 
 public class tp2 {
 
@@ -446,7 +444,7 @@ public class tp2 {
   public static SHOW[] parseFile(String fileName, int n) {
     SHOW[] result = new SHOW[n];
     try (InputStream is = new BufferedInputStream(new FileInputStream(fileName))) {
-      byte[] buffer = new byte[8192]; // 8KB buffer (adjustable)
+      byte[] buffer = new byte[8192];
       int bytesRead;
       StringBuilder lineBuilder = new StringBuilder();
 
@@ -459,7 +457,8 @@ public class tp2 {
             if (j >= 0) {
               result[j] = parseLine(lineBuilder.toString());
             }
-            lineBuilder.setLength(0); // Reset for next line
+            // Reset for next line
+            lineBuilder.setLength(0);
             j++;
           } else {
             lineBuilder.append(c);
@@ -475,26 +474,6 @@ public class tp2 {
     }
     return result;
   }
-
-  // trying out a different method
-  // public static SHOW[] readFile(String fpath, long n) {
-  //   SHOW[] result = new SHOW[(int) n];
-  //   int i = 0;
-
-  //   try (BufferedReader br = new BufferedReader(new FileReader(fpath))) {
-  //     String line;
-  //     br.readLine(); // skip first line;
-  //     while ((line = br.readLine()) != null) {
-  //       result[i] = parseLine(line);
-  //       i++;
-  //     }
-  //   } catch (IOException e) {
-  //     System.err.println("Error reading the file: " + e.getMessage());
-  //   }
-
-  //   return result;
-
-  // }
 
   public static void q1(SHOW[] shows) {
     Scanner input = new Scanner(System.in);
@@ -551,6 +530,8 @@ public class tp2 {
 
     long n = countLines(showFile);
     SHOW[] shows = parseFile(showFile, (int) n);
+    // START OF EACH SECTION.
+    q1(shows);
     q2(shows);
   }
 }

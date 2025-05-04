@@ -442,7 +442,6 @@ int main() {
     }
   } while (strcmp(input, "FIM") != 0);
 
-  // printf("\n%s\n", show_to_string(shows[85]));
   for (int i = 0; i < show_count; i++) {
     free_show(&shows[i]);
   }
