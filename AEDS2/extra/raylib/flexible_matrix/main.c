@@ -13,6 +13,8 @@
 #define ARROW_THICKNESS 1.0f
 #define FONT_SIZE 20
 
+#define MAX_RAND_VALUE 10000
+
 int max_val = 0;
 
 typedef struct Cell {
@@ -67,7 +69,7 @@ void DrawArrow(Vector2 startPos, Vector2 endPos, float thickness, Color color);
 int main(int argc, char **argv) {
 
   srand(time(NULL));
-  F_MATRIX *m = create_matrix(25, 10);
+  F_MATRIX *m = create_matrix(10, 10);
 
   if (!m)
     return 1;
@@ -205,45 +207,65 @@ inline int digit_count(int n) {
     return -1;
 }
 
+int my_strlen(const char *str) {
+  int i = 0;
+  while (str[++i])
+    ;
+  ;
+  return i;
+}
+
 void print_matrix(F_MATRIX *m) {
-  if (!m || !m->t)
+  if (!m || !m->t) {
+    perror("Matrix is empty or NULL.\n");
     return;
+  }
 
   int max_digits = digit_count(max_val);
-  int cell_width = max_digits + 2;
-  int connector_width = cell_width;
+  // always odd to make easier for vertical connection.
+  int print_width = max_digits % 2 == 0 ? max_digits + 1 : max_digits;
 
-  M_CELL *row = m->t;
-  m->t->right->val = max_val;
-  while (row) {
-    // Print values row
-    M_CELL *current = row;
-    while (current) {
-      printf("%*d", cell_width, current->val);
-      if (current->right) {
-        printf("%*s", connector_width, "--");
+  const char *h_connector = " -- ";
+  int h_connector_len = my_strlen(h_connector);
+
+  M_CELL *row_start = m->t;
+  while (row_start) {
+    M_CELL *current_cell = row_start;
+    while (current_cell) {
+      // FIX: change this line to %*0d
+      // to get matching 0's instead of spaces?
+      printf("%*d", print_width, current_cell->val);
+
+      if (current_cell->right) {
+        printf("%s", h_connector);
       }
-      current = current->right;
+      current_cell = current_cell->right;
     }
     printf("\n");
 
-    if (row->down) {
-      current = row;
-      printf("%*s", cell_width / 2 - 1, " ");
-      while (current) {
-        printf("%*s", cell_width / 2 + 1, "|");
-        if (current->right) {
-          if (current->down && current->right->down) {
-            printf("%*s", connector_width + cell_width / 2 - 1, " ");
-          } else {
-            printf("%*s", connector_width, " ");
-          }
-        }
-        current = current->right;
+    if (row_start->down) {
+      current_cell = row_start;
+      while (current_cell) {
+        // always odd, makes this a simple n/2
+        int middle_index = print_width / 2;
+        for (int i = 0; i < middle_index; i++)
+          printf(" ");
+
+        printf("|");
+
+        for (int i = 0; i < middle_index; i++)
+          printf(" ");
+
+        if (current_cell->right)
+          for (int i = 0; i < h_connector_len; i++)
+            printf(" ");
+
+        current_cell = current_cell->right;
       }
       printf("\n");
     }
-    row = row->down;
+
+    row_start = row_start->down;
   }
 }
 
@@ -288,7 +310,7 @@ F_MATRIX *create_matrix(size_t r, size_t c) {
   m->row = r;
 
   M_CELL *curr = m->t;
-  curr->val = rand() % 500;
+  curr->val = rand() % MAX_RAND_VALUE;
 
   for (size_t i = 1; i < c; i++) {
     M_CELL *tmp = (M_CELL *)malloc(sizeof(M_CELL));
@@ -312,7 +334,7 @@ F_MATRIX *create_matrix(size_t r, size_t c) {
     tmp->down = NULL;
 
     // debugging helper for now
-    tmp->val = rand() % 500;
+    tmp->val = rand() % MAX_RAND_VALUE;
     max_val = max_val > tmp->val ? max_val : tmp->val;
     // move to next cell;
     curr = curr->right;
@@ -342,7 +364,7 @@ F_MATRIX *create_matrix(size_t r, size_t c) {
       tmp->right = NULL;
       tmp->down = NULL;
 
-      tmp->val = rand() % 500;
+      tmp->val = rand() % MAX_RAND_VALUE;
       max_val = max_val > tmp->val ? max_val : tmp->val;
 
       curr = curr->right;
