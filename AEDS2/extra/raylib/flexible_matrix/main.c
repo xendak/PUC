@@ -234,7 +234,16 @@ void print_matrix(F_MATRIX *m) {
     while (current_cell) {
       // FIX: change this line to %*0d
       // to get matching 0's instead of spaces?
-      printf("%*d", print_width, current_cell->val);
+      // printf("%*d", print_width, current_cell->val);
+      int curr_digit = digit_count(current_cell->val);
+      int spaces_before_number = (print_width - curr_digit) / 2;
+      for(int i = 0; i < spaces_before_number; i++)
+        printf(" ");
+      printf("%d", current_cell->val);
+      int spaces_after_number = print_width - curr_digit - spaces_before_number;
+      if (spaces_after_number > 0)
+        for(int i = 0; i < spaces_after_number; i++)
+          printf(" ");
 
       if (current_cell->right) {
         printf("%s", h_connector);

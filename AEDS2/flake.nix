@@ -78,6 +78,7 @@
               prev = "\${JAVA_TOOL_OPTIONS:+ $JAVA_TOOL_OPTIONS}";
             in
             ''
+              cp ./verde/tp2/entrada.csv /tmp/disneyplus.csv
               export JAVA_TOOL_OPTIONS="${loadLombok}${prev}"
             '';
         };
