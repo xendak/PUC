@@ -6,10 +6,18 @@ import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class tp2 {
 
   static final int INSERTION_SORT_CUTOFF = 10;
+  public static int COMPARISON_COUNT = 0;
+  public static long TIMER = 0;
+  public static final String MATRICULA = "875628";
+  public static final String QUESTION = "countingsort";
+  public static final String LOG_NAME = MATRICULA + "_" + QUESTION + ".txt";
 
   public static void sort(String[] arr) {
     if (arr == null || arr.length == 0)
@@ -48,7 +56,7 @@ public class tp2 {
     String pivotValue = arr[pivotIndex];
 
     // Move pivot to end temporarily
-    swap(arr, pivotIndex, right);
+    swapStringArr(arr, pivotIndex, right);
 
     int i = left - 1;
     int j = right;
@@ -64,11 +72,11 @@ public class tp2 {
       if (i >= j)
         break;
 
-      swap(arr, i, j);
+      swapStringArr(arr, i, j);
     }
 
     // Move pivot to its final position
-    swap(arr, i, right);
+    swapStringArr(arr, i, right);
     return i;
   }
 
@@ -89,8 +97,14 @@ public class tp2 {
     }
   }
 
-  private static void swap(String[] arr, int i, int j) {
+  private static void swapStringArr(String[] arr, int i, int j) {
     String temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+
+  private static void swapShow(SHOW[] arr, int i, int j) {
+    SHOW temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
   }
@@ -478,15 +492,159 @@ public class tp2 {
     return result;
   }
 
-  public static void q1(SHOW[] shows) {
+  public static int myCmpString(String src, String dst) {
+    int max = src.length() > dst.length() ? dst.length() : src.length();
+    COMPARISON_COUNT++;
+
+    int i = 0;
+    int diff = 0;
+
+    // 2 comparisons every loop
+    while (i < max && diff == 0) {
+      COMPARISON_COUNT += 2;
+      diff = src.charAt(i) - dst.charAt(i);
+      i++;
+    }
+
+    COMPARISON_COUNT++;
+    return (diff != 0) ? diff : (src.length() - dst.length());
+    // return diff;
+  }
+
+  public static boolean myEqualString(String src, String dst) {
+    COMPARISON_COUNT++;
+    if (src.length() != dst.length())
+      return false;
+
+    return myCmpString(src, dst) == 0;
+  }
+
+  public static boolean sequentialSearch(SHOW[] s, String line) {
+    for (int i = 0; i < s.length; i++) {
+      if (myEqualString(s[i].title, line))
+        return true;
+    }
+    return false;
+  }
+
+  public static void createLogFile() {
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_NAME))) {
+      writer.write(
+          MATRICULA + "\t" + COMPARISON_COUNT + "\t" + TIMER);
+    } catch (IOException e) {
+      System.err.println("Error writing to file: " + e.getMessage());
+    }
+  }
+
+  public static int compareDirectorTitle(SHOW src, SHOW dst) {
+    int res = myCmpString(src.director, dst.director);
+    COMPARISON_COUNT++;
+    if (res != 0) {
+      return res;
+    }
+    return myCmpString(src.title, dst.title);
+  }
+
+  private static void insertionSortByTitle(SHOW[] shows, ArrayList<Integer> indices) {
+    for (int i = 1; i < indices.size(); i++) {
+      int idx = indices.get(i);
+      String c_title = shows[idx].title;
+      int j = i - 1;
+
+      while (j >= 0 && myCmpString(shows[indices.get(j)].title, c_title) > 0) {
+        COMPARISON_COUNT++;
+        indices.set(j + 1, indices.get(j));
+        j--;
+      }
+      indices.set(j + 1, idx);
+    }
+  }
+
+  public static SHOW[] countingSort(SHOW[] shows) {
+    int min_year = Integer.MAX_VALUE;
+    int max_year = Integer.MIN_VALUE;
+    for (SHOW show : shows) {
+      COMPARISON_COUNT++;
+      int year = show.release_year;
+
+      COMPARISON_COUNT++;
+      if (year < min_year)
+        min_year = year;
+
+      COMPARISON_COUNT++;
+      if (year > max_year)
+        max_year = year;
+    }
+    int range = max_year - min_year + 1;
+
+    ArrayList<ArrayList<Integer>> year_groups = new ArrayList<>(range);
+    for (int i = 0; i < range; i++) {
+      COMPARISON_COUNT++;
+      year_groups.add(new ArrayList<>());
+    }
+
+    for (int i = 0; i < shows.length; i++) {
+      COMPARISON_COUNT++;
+      int year_index = shows[i].release_year - min_year;
+      year_groups.get(year_index).add(i);
+    }
+
+    for (ArrayList<Integer> group : year_groups) {
+      COMPARISON_COUNT++;
+      if (group.size() > 1) {
+        COMPARISON_COUNT++;
+        insertionSortByTitle(shows, group);
+      }
+    }
+
+    SHOW[] sorted = new SHOW[shows.length];
+    int sorted_idx = 0;
+    for (int year_offset = 0; year_offset < range; year_offset++) {
+      COMPARISON_COUNT++;
+      ArrayList<Integer> group = year_groups.get(year_offset);
+      for (int idx : group) {
+        COMPARISON_COUNT++;
+        sorted[sorted_idx++] = shows[idx];
+      }
+    }
+    return sorted;
+  }
+
+  public static void doQuestion(SHOW[] shows) {
     Scanner input = new Scanner(System.in);
     String line = input.nextLine();
+    ArrayList<SHOW> temp = new ArrayList<SHOW>();
+
     do {
       int sid = Integer.parseInt(line.substring(1));
+      if (sid - 1 <= shows.length) {
 
-      System.out.println(shows[sid - 1].print());
+        temp.add(shows[sid - 1].clone());
+      }
       line = input.nextLine();
     } while (!line.equals("FIM"));
+
+    SHOW[] res = new SHOW[temp.size()];
+    res = temp.toArray(res);
+
+    long startTime = System.nanoTime();
+
+    SHOW[] sorted = new SHOW[0];
+    if (res.length > 0)
+      sorted = countingSort(res);
+
+    long endTime = System.nanoTime();
+
+    TIMER = (endTime - startTime);
+    // eu preciso disso? n tem nada falando qual unidade de tempo usar.
+    // double durationInMillis = TIMER / 1_000_000.0;
+    createLogFile();
+
+    for (int i = 0; i < sorted.length; i++) {
+      System.out.println(sorted[i].print());
+    }
+
     input.close();
   }
 
@@ -497,7 +655,6 @@ public class tp2 {
     long n = countLines(showFile);
     SHOW[] shows = parseFile(showFile, (int) n);
     // START OF EACH SECTION.
-    q1(shows);
-    // q2(shows);
+    doQuestion(shows);
   }
 }

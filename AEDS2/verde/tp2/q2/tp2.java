@@ -6,10 +6,18 @@ import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 public class tp2 {
 
   static final int INSERTION_SORT_CUTOFF = 10;
+  public static int COMPARISON_COUNT = 0;
+  public static long TIMER = 0;
+  public static final String MATRICULA = "875628";
+  public static final String QUESTION = "_sequential";
+  public static final String LOG_NAME = MATRICULA + QUESTION + ".txt";
 
   public static void sort(String[] arr) {
     if (arr == null || arr.length == 0)
@@ -478,15 +486,79 @@ public class tp2 {
     return result;
   }
 
-  public static void q1(SHOW[] shows) {
+  public static int myCmpString(String src, String dst) {
+    int max = src.length() > dst.length() ? dst.length() : src.length();
+    COMPARISON_COUNT++;
+
+    int i = 0;
+    int diff = 0;
+
+    // 2 comparisons every loop
+    while (i < max && diff == 0) {
+      COMPARISON_COUNT += 2;
+      diff = src.charAt(i) - dst.charAt(i);
+      i++;
+    }
+
+    return diff;
+  }
+
+  public static boolean myEqualString(String src, String dst) {
+    COMPARISON_COUNT++;
+    if (src.length() != dst.length())
+      return false;
+
+    return myCmpString(src, dst) == 0;
+  }
+
+  public static boolean sequentialSearch(SHOW[] s, String line) {
+    for (int i = 0; i < s.length; i++) {
+      if (myEqualString(s[i].title, line))
+        return true;
+    }
+    return false;
+  }
+
+  public static void createLogFile() {
+
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(LOG_NAME))) {
+      writer.write(
+          MATRICULA + "\t" + TIMER + "\t" + COMPARISON_COUNT);
+    } catch (IOException e) {
+      System.err.println("Error writing to file: " + e.getMessage());
+    }
+  }
+
+  public static void doQuestion(SHOW[] shows) {
     Scanner input = new Scanner(System.in);
     String line = input.nextLine();
+    ArrayList<SHOW> temp = new ArrayList<SHOW>();
+
     do {
       int sid = Integer.parseInt(line.substring(1));
+      if (sid - 1 <= shows.length) {
 
-      System.out.println(shows[sid - 1].print());
+        temp.add(shows[sid - 1].clone());
+      }
       line = input.nextLine();
     } while (!line.equals("FIM"));
+    line = input.nextLine();
+
+    SHOW[] res = new SHOW[temp.size()];
+    res = temp.toArray(res);
+
+    long startTime = System.nanoTime();
+    do {
+      System.out.println(sequentialSearch(res, line) ? "SIM" : "NAO");
+      line = input.nextLine();
+    } while (!line.equals("FIM"));
+    long endTime = System.nanoTime();
+
+    TIMER = (endTime - startTime);
+    // eu preciso disso? n tem nada falando qual unidade de tempo usar.
+    // double durationInMillis = TIMER / 1_000_000.0;
+    createLogFile();
+
     input.close();
   }
 
@@ -497,7 +569,6 @@ public class tp2 {
     long n = countLines(showFile);
     SHOW[] shows = parseFile(showFile, (int) n);
     // START OF EACH SECTION.
-    q1(shows);
-    // q2(shows);
+    doQuestion(shows);
   }
 }
