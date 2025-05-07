@@ -22,7 +22,7 @@ inline void insertion_sort(int* arr) {
     }
     // we swap next, we what we began since that is the correct
     // position, because everything that was wrong was shifted.
-    arr[j+i] = key;
+    arr[j+1] = key;
   }
 }
 
