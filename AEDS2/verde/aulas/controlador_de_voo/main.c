@@ -2,152 +2,95 @@
 #include <stdlib.h>
 #include <string.h>
 
-// West priority.
-// North/South alternates between 1 and 1
-// East always last
+typedef enum {
+  false,
+  true,
+} bool;
 
 typedef enum {
-  WEST = 0,
-  SOUTH = 1,
-  NORTH = 2,
-  EAST = 3,
+  WEST,
+  SOUTH,
+  NORTH,
+  EAST,
+  ENUM_COUNT,
 } Direction;
 
 typedef struct Node {
   struct Node *next;
   char *name;
-} Node;
+} Node, *Nodeptr;
 
 typedef struct {
-  Node *head;
-  size_t size;
+  Nodeptr head;
+  Nodeptr tail;
+  size_t len;
+} Queue;
 
-} Stack;
+void init_queue(Queue *q);
+void enqueue(Queue *q, char *val);
+char *dequeue(Queue *q);
+void deinit_queue(Queue *q);
 
-typedef enum { false, true } bool;
+Nodeptr create_node(char *val);
+char *delete_node(Nodeptr n);
 
-Node* create_node(char* str);
-void init_stack(Stack *s);
-void push(Stack *s, char *name);
-
-bool is_direction(char *str);
-Direction get_direction(char *str);
-void print(Stack *s);
-void print_stack(Stack *s);
+void print_queue(Queue *q);
+bool is_direction(char *line);
+Direction parse_line(char *val);
 
 int main() {
   char line[10];
+  Direction dir = WEST;
+  Queue planes[ENUM_COUNT];
+  for (int i = 0; i < ENUM_COUNT; i++)
+    init_queue(&planes[i]);
 
-  if (scanf("%s", line) != 1)
-    return 1;
-  Stack planes[4];
-  for (int i = 0; i < 4; i++)
-    init_stack(&planes[i]);
+  // first read.
+  if(scanf("%s", line) == 1) return 1;
 
-  Direction direction = WEST;
-  printf("Starting, Dir = %d\n", direction);
-
-  do {
-    if (!is_direction(line)) {
-      printf("adding a plane = %s\n", line);
-      push(&planes[direction], line);
+  while (line[0] != '0') {
+    if(is_direction(line)) {
+      dir = parse_line(line);     
     } else {
-      printf("changing direction = ");
-      direction = get_direction(line);
+      enqueue(&planes[dir], line);
     }
-    if (scanf("%s", line) != 1)
-      return 1;
-  } while (line[0] != '0');
+    
+    if(scanf("%s", line) == 1) return 1;
+  }
+  print_queue(planes);
 
-  printf("Printing planes in order\n");
-  print(planes);
   return 0;
 }
+Nodeptr create_node(char *val) {
+  Nodeptr res = (Nodeptr)malloc(sizeof(Node));
+  res->name = val;
+  res->next = NULL;
+  return res;
+}
+char *delete_node(Nodeptr n);
 
-bool is_direction(char *str) { return str[0] == '-'; }
+void init_queue(Queue *q) {
+  Nodeptr head = create_node(NULL);
+  q->head = head;
+  q->tail = head;
+  q->len = 0;
+}
+void enqueue(Queue *q, char *val) {
+  Nodeptr tmp = create_node(val);  
+  Nodeptr head = q->head;
+  Nodeptr tail = q->tail;
+  tmp->next =;
 
-Direction get_direction(char *str) {
-  int res = atoi(&str[1]);
-  printf("%d\n", res - 1);
-  return res - 1;
+  head->next = tmp;
+  
+  
 }
 
-void init_stack(Stack *s) {
-  s->size = 0;
-  s->head = NULL;
-}
-
-Node* create_node(char* str) {
-  Node* new_node = (Node*) malloc(sizeof(Node));
-  new_node->name = strdup(str);
-  new_node->next = NULL;
-  printf("added: %s", new_node->name);
-  return new_node;
-}
-
-void push(Stack *s, char *str) {
-  s->size++;
-  Node *tmp = create_node(str);
-  tmp->next = s->head;
-  s->head = tmp;
-  print_stack(s);
-}
-
-void print_stack(Stack *s) {
-  Node* h = s->head;
-    printf("[");
-  while(s) {
-    printf("%s", h->name);
-    h = h->next;
-  }
-    printf("]");
-}
+char *dequeue(Queue *q);
+void deinit_queue(Queue *q);
 
 
-void print(Stack *s) {
-  printf("sizes = %zu", s[WEST].size);
-  Node *west = s[WEST].head;
-  Node *south = s[SOUTH].head;
-  Node *north = s[NORTH].head;
-  Node *east = s[EAST].head;
+void print_queue(Queue *q);
+bool is_direction(char *line);
+Direction parse_line(char *val);
 
-  // WEST
-  while (west) {
-    printf("%s ", west->name);
-    west = west->next;
-  }
-
-  size_t ns = s[NORTH].size > s[SOUTH].size ? s[NORTH].size : s[SOUTH].size;
-  bool n_s = true;
-  Node *curr = NULL;
-
-  while (ns) {
-    if (n_s) {
-      curr = north;
-      north = north->next;
-    } else {
-      curr = south;
-      south = south->next;
-    }
-    printf("%s ", curr->name);
-    n_s = !n_s;
-  }
-
-  if (s[SOUTH].size <= s[NORTH].size) {
-    while (north) {
-      printf("%s ", north->name);
-      north = north->next;
-    }
-  } else {
-    while (south) {
-      printf("%s ", south->name);
-      south = south->next;
-    }
-  }
-
-  while (east) {
-    printf("%s ", east->name);
-    east = east->next;
-  }
-  printf("\n");
-}
