@@ -1,0 +1,277 @@
+==27542== Memcheck, a memory error detector
+==27542== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==27542== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==27542== Command: ./main
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B337: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7c60 is 0 bytes inside a block of size 5 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B337: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B438: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B340: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7cb0 is 0 bytes inside a block of size 6 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B340: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B45A: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B349: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7d00 is 0 bytes inside a block of size 15 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B349: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B47D: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B352: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7d50 is 0 bytes inside a block of size 52 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B352: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4A0: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid read of size 8
+==27542==    at 0x10B374: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7f40 is 0 bytes inside a block of size 48 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B391: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B564: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B37C: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7fb0 is 0 bytes inside a block of size 11 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B37C: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B5A2: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B391: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7f40 is 0 bytes inside a block of size 48 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B391: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B564: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B39A: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7dd0 is 0 bytes inside a block of size 14 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B39A: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4C3: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3A3: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7e20 is 0 bytes inside a block of size 2 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3A3: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4E6: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3AC: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7e70 is 0 bytes inside a block of size 7 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3AC: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B509: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid read of size 8
+==27542==    at 0x10B3C4: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee8190 is 0 bytes inside a block of size 24 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3E1: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B5DB: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3CC: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee81f0 is 0 bytes inside a block of size 17 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3CC: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B622: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3E1: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee8190 is 0 bytes inside a block of size 24 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B3E1: free_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B5DB: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== Invalid free() / delete / delete[] / realloc()
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Address 0x4ee7ec0 is 0 bytes inside a block of size 64 free'd
+==27542==    at 0x484AC0B: free (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B9DF: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==  Block was alloc'd at
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B52C: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+
+Selected 300 shows. Now testing partial sorts...
+=> s635 ## 101 Dalmatians ## Movie ## Wolfgang Reitherman, Hamilton Luske, Clyde Geronimi ## [Ben Wright, Betty Gerson, Cate Bauer, Fred Worlock, J. Pat O'Malley, Rod Taylor] ## United States ## November 12, 2019 ## 1961 ## G ## 81 min ## [Action-Adventure, Animation, Family] ##
+=> s641 ## A Goofy Movie ## Movie ## Kevin Lima ## [Bill Farmer, Jason Marsden, Jim Cummings, Kellie Martin, Rob Paulsen, Wallace Shawn] ## United States, Australia, France, Canada ## November 12, 2019 ## 1995 ## G ## 81 min ## [Action-Adventure, Animation, Comedy] ##
+=> s493 ## A Tale of Two Critters ## Movie ## Jack Speirs ## [Mayf Nutter] ## United States ## April 3, 2020 ## 1977 ## G ## 48 min ## [Animals & Nature, Family] ##
+=> s647 ## Aladdin: The Return of Jafar ## Movie ## Toby Shelton, Tad Stones, Alan Zaslove ## [Dan Castellaneta, Jason Alexander, Jeff Bennett, Jim Cummings, Liz Callaway, Val Bettin] ## United States ## November 12, 2019 ## 1994 ## G ## 71 min ## [Action-Adventure, Animation, Family] ##
+=> s649 ## Aliens of the Deep ## Movie ## James Cameron, Steven Quale ## [Dr. Anatoly Sagalevitch, Dr. Arthur Lane, Dr. Jim Childress, Dr. Pamela Conrad, Genya Chernaiev, Victor Nischeta] ## United States ## November 12, 2019 ## 2005 ## G ## 100 min ## [Action-Adventure, Animals & Nature, Documentary] ##
+=> s651 ## Almost Angels ## Movie ## Steve Previn ## [Bruni Löbel, Fritz Eckhardt, Hans Holt, Peter Weck, Sean Scully, Vincent Winter] ## United States ## November 12, 2019 ## 1962 ## TV-PG ## 90 min ## [Coming of Age, Drama, Family] ##
+=> s656 ## Annie ## Movie ## Rob Marshall ## [Alan Cumming, Audra McDonald, Kathy Bates, Kristin Chenoweth, Vic Polizos, Victor Garber] ## United States ## November 12, 2019 ## 1999 ## TV-PG ## 91 min ## [Drama, Family, Musical] ##
+=> s662 ## Avatar ## Movie ## James Cameron ## [Giovanni Ribisi, Michelle Rodriguez, Sam Worthington, Sigourney Weaver, Stephen Lang, Zoë Saldana] ## United States ## November 12, 2019 ## 2009 ## PG-13 ## 162 min ## [Action-Adventure, Science Fiction] ##
+=> s666 ## Bambi II ## Movie ## Brian Pimental ## [Alexander Gould, Andrea Bowen, Brendon Baerg, Keith Ferguson, Nicky Jones, Patrick Stewart] ## United States ## November 12, 2019 ## 2006 ## G ## 75 min ## [Animation, Drama, Kids] ##
+=> s671 ## Beauty and the Beast: The Enchanted Christmas ## Movie ## Andy Knight ## [Bernadette Peters, David Stiers, Jerry Orbach, Paige O'Hara, Robby Benson, Tim Curry] ## Canada, United States ## November 12, 2019 ## 1997 ## G ## 73 min ## [Animation, Family, Fantasy] ##
+==27542== 
+==27542== HEAP SUMMARY:
+==27542==     in use at exit: 2,846 bytes in 169 blocks
+==27542==   total heap usage: 52,325 allocs, 52,339 frees, 1,493,332 bytes allocated
+==27542== 
+==27542== 45 bytes in 10 blocks are definitely lost in loss record 1 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4E6: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 53 bytes in 10 blocks are definitely lost in loss record 2 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B438: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 66 bytes in 10 blocks are definitely lost in loss record 3 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B45A: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 76 bytes in 10 blocks are definitely lost in loss record 4 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B509: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 95 bytes in 10 blocks are definitely lost in loss record 5 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4A0: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 147 bytes in 10 blocks are definitely lost in loss record 6 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B4C3: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 244 bytes in 10 blocks are definitely lost in loss record 8 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B47D: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 427 (192 direct, 235 indirect) bytes in 10 blocks are definitely lost in loss record 9 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B5DB: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 743 bytes in 10 blocks are definitely lost in loss record 11 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x490DD9D: strdup (in /nix/store/rmy663w9p7xb202rcln4jjzmvivznmz8-glibc-2.40-66/lib/libc.so.6)
+==27542==    by 0x10B52C: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== 950 (360 direct, 590 indirect) bytes in 10 blocks are definitely lost in loss record 12 of 12
+==27542==    at 0x4847810: malloc (in /nix/store/cawr37dyifswi0zfkx1gygc7h16489g4-valgrind-3.24.0/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==27542==    by 0x10B564: copy_show (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542==    by 0x10B870: main (in /home/nixos/Programming/PUC/AEDS2/verde/tp2/dirty/main)
+==27542== 
+==27542== LEAK SUMMARY:
+==27542==    definitely lost: 2,021 bytes in 100 blocks
+==27542==    indirectly lost: 825 bytes in 69 blocks
+==27542==      possibly lost: 0 bytes in 0 blocks
+==27542==    still reachable: 0 bytes in 0 blocks
+==27542==         suppressed: 0 bytes in 0 blocks
+==27542== 
+==27542== For lists of detected and suppressed errors, rerun with: -s
+==27542== ERROR SUMMARY: 276 errors from 24 contexts (suppressed: 0 from 0)
