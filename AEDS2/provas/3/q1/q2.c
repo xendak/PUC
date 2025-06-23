@@ -28,7 +28,7 @@ int main() {
     int arr[n];
     for (int i = 0; i < n; i++) {
 
-      scanf("%d", &arr[i]);
+      if(scanf("%d", &arr[i]) != 1) return 1;
     }
     selection_sort(arr, n);
 
@@ -38,4 +38,5 @@ int main() {
     }
     printf("%d\n", sum);
   }
+  return 0;
 }
