@@ -4,9 +4,12 @@ Q1 -> java (q1.java java.in java.out) Q2 -> c (q2.c pub.in pub.out)
 
 ## Java
 Descrição: Leia os dados de vários carros e insira-os em uma árvore binária
-ordenada pela placa. Em seguida, imprima os carros em ordem alfabética da placa.
+ordenada pela placa.
+Em seguida, imprima os carros em ordem alfabética da placa.
+
 Entrada: Cada linha contém os dados de um carro, no formato:
 `placa,modelo,tipo,chassi`
+
 A entrada termina com a linha: FIM
 
 Saída: Lista ordenada dos carros conforme critério acima, um por linha, no
@@ -14,7 +17,7 @@ formato:
 ```
 [placa] [modelo] [tipo] [chassi]
 ```
-Helpers:
+
 ```java
 class Carro {
     String placa, modelo, tipo, chassi;
