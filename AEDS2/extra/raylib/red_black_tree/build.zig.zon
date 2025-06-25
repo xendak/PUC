@@ -1,0 +1,22 @@
+.{
+    .name = .rb_tree,
+    .version = "0.0.0",
+    .fingerprint = 0x8f9e69f78e6defcc,
+    .minimum_zig_version = "0.14.0",
+
+    .dependencies = .{
+        .raylib = .{
+            .url = "git+https://github.com/Not-Nik/raylib?ref=zig-raygui-options#b26f6d34baccd479a4a41a8348debd75d434b646",
+            .hash = "raylib-5.5.0-whq8uMTTNAQxH7sCIOssIcnrwsKugV1i3WiJqz9mIjLs",
+        },
+        .raygui = .{
+            .url = "git+https://github.com/raysan5/raygui#40b8c25ec1b3237a564c2518a46fed94f53f9e41",
+            .hash = "N-V-__8AAOkYbwAaSZsHzRK-HrHkOxQq0IbplOY98PzG-Kdm",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}
