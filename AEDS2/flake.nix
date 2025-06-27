@@ -136,10 +136,10 @@
             $compiler -ggdb "$source_file" -o "$program_name" -lm -Wall "''${@:3}"
              
             # Run
-            if [ -f "pub.in" ]; then
-              ./"$program_name" < pub.in > /tmp/tp_out || true
+            if [ -f "c.in" ]; then
+              ./"$program_name" < c.in > /tmp/tp_out || true
             else
-              echo "pub.in not found, running without input"
+              echo "c.in not found, running without input"
               ./"$program_name" > /tmp/tp_out || true
             fi
             
@@ -156,10 +156,10 @@
             $compiler -ggdb "$source_file" -o "$program_name" -lm -Wall "''${@:3}"
             
             # Run
-            if [ -f "pub.in" ]; then
-              ./"$program_name" < pub.in > /tmp/tp_out || true
+            if [ -f "cpp.in" ]; then
+              ./"$program_name" < cpp.in > /tmp/tp_out || true
             else
-              echo "pub.in not found, running without input"
+              echo "cpp.in not found, running without input"
               ./"$program_name" > /tmp/tp_out || true
             fi
             
@@ -167,10 +167,10 @@
             echo "Java file: $program_name.java"
             
             # Run Java
-            if [ -f "pub.in" ]; then
+            if [ -f "java.in" ]; then
               java "$program_name.java" < java.in > /tmp/tp_out || true
             else
-              echo "pub.in not found, running without input"
+              echo "java.in not found, running without input"
               java "$program_name.java" > /tmp/tp_out || true
             fi
             

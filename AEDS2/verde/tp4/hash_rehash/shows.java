@@ -1,10 +1,20 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Arrays;
 
 public class shows {
@@ -47,7 +57,6 @@ public class shows {
     int pivotIndex = medianOfThree(arr, left, mid, right);
     String pivotValue = arr[pivotIndex];
 
-    // Move pivot to end temporarily
     swap(arr, pivotIndex, right);
 
     int i = left - 1;
@@ -67,7 +76,6 @@ public class shows {
       swap(arr, i, j);
     }
 
-    // Move pivot to its final position
     swap(arr, i, right);
     return i;
   }
@@ -78,13 +86,10 @@ public class shows {
     boolean compAC = arr[a].compareTo(arr[c]) > 0;
 
     if (compAB == compBC) {
-      // a > b > c OR c > b > a
       return b;
     } else if (compAC == compBC) {
-      // b > c > a OR a > c > b
       return c;
     } else {
-      // b > a > c OR c > a > b
       return a;
     }
   }
@@ -95,7 +100,7 @@ public class shows {
     arr[j] = temp;
   }
 
-  public static class SHOW {
+  public static class Show {
     static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MMMM d, u");
 
     private String show_id;
@@ -113,8 +118,7 @@ public class shows {
     private int listed_in_capacity;
     private String description;
 
-    // CONSTRUCTORS
-    SHOW() {
+    Show() {
       this.show_id = "";
       this.type = "";
       this.title = "";
@@ -128,9 +132,9 @@ public class shows {
       this.description = "";
     }
 
-    SHOW(String show_id, String type, String title, String director,
-        String[] cast, String country, LocalDate date_added, int release_year,
-        String rating, String duration, String[] listed_in, String description) {
+    Show(String show_id, String type, String title, String director,
+      String[] cast, String country, LocalDate date_added, int release_year,
+      String rating, String duration, String[] listed_in, String description) {
       this.show_id = show_id;
       this.type = type;
       this.title = title;
@@ -144,8 +148,8 @@ public class shows {
       this.description = description;
     }
 
-    public SHOW clone() {
-      SHOW result = new SHOW();
+    public Show clone() {
+      Show result = new Show();
       result.show_id = this.show_id;
       result.type = this.type;
       result.title = this.title;
@@ -156,13 +160,12 @@ public class shows {
       result.release_year = this.release_year;
       result.rating = this.rating;
       result.duration = this.duration;
-      result.listed_in = (this.listed_in != null) ? Arrays.copyOf(this.listed_in, this.listed_in.length)
-          : new String[0];
+      result.listed_in = (this.listed_in != null) ? Arrays.copyOf(this.listed_in, this.listed_in.length) :
+        new String[0];
       result.description = this.description;
       return result;
     }
 
-    // SETTERS
     public void setShowId(String show_id) {
       this.show_id = (show_id != null) ? show_id : "";
     }
@@ -199,7 +202,7 @@ public class shows {
     public void setDateAdded(String date) {
       if (date.charAt(0) == '"')
         date = date.replaceAll("^\"|\"$", "");
-      this.date_added = LocalDate.parse(date, SHOW.DATE_TIME_FORMATTER);
+      this.date_added = LocalDate.parse(date, Show.DATE_TIME_FORMATTER);
     }
 
     public void setDateAdded(LocalDate date_added) {
@@ -239,7 +242,6 @@ public class shows {
       this.description = (description != null) ? description : "";
     }
 
-    // GETTERS
     public String getShowId() {
       return this.show_id;
     }
@@ -265,7 +267,7 @@ public class shows {
     }
 
     public String getDateAdded() {
-      return this.date_added == null ? "NaN" : SHOW.DATE_TIME_FORMATTER.format(this.date_added);
+      return this.date_added == null ? "NaN" : Show.DATE_TIME_FORMATTER.format(this.date_added);
     }
 
     public int getReleaseYear() {
@@ -289,9 +291,6 @@ public class shows {
     }
 
     public String print() {
-      // [=> id ## type ## title ## director ## [cast] ## country ## date added ##
-      // release year ## rating ## duration ## [listed in].
-      // TODO: verde says title then type, rather than what is written in .pdf
       StringBuilder result = new StringBuilder();
       result.append("=> ");
       result.append(this.show_id);
@@ -329,15 +328,15 @@ public class shows {
       if (this.listed_in != null && this.listed_in.length > 0) {
         result.append(String.join(", ", this.listed_in));
       }
-      result.append("] ## ");
+      result.append("] ##");
 
       return result.toString();
     }
   }
 
-  public static SHOW parseLine(String line) {
+  public static Show parseLine(String line) {
     boolean inside_quotes = false;
-    SHOW result = new SHOW();
+    Show result = new Show();
     if (line == null || line.isEmpty())
       return result;
 
@@ -345,7 +344,7 @@ public class shows {
     StringBuilder temp = new StringBuilder();
     boolean isEmpty = false;
 
-    for (Character c : line.toCharArray()) {
+    for (Character c: line.toCharArray()) {
       if (!inside_quotes && c == ',' || c == '\n') {
         if (temp.isEmpty()) {
           temp.append("NaN");
@@ -353,56 +352,47 @@ public class shows {
         }
 
         switch (n) {
-          case 0:
-            result.setShowId(temp.toString());
-            break;
-          case 1:
-            result.setType(temp.toString());
-            break;
-          case 2:
-            // need to remove Double Quotes here in Verde, for some reason?
-            result.setTitle(temp.toString());
-            break;
-          case 3:
-            result.setDirector(temp.toString());
-            break;
-          case 4:
-            // if (temp.charAt(0) == '\"') {
-            String cast = temp.toString();
-            result.setCast(cast.trim().split(", "));
-            // } else {
-            // result.setCast(temp.toString());
-            // }
-            break;
-          case 5:
-            result.setCountry(temp.toString());
-            break;
-          case 6:
-            if (!isEmpty)
-              result.setDateAdded(temp.toString());
-            break;
-          case 7:
-            result.setReleaseYear(temp.toString());
-            break;
-          case 8:
-            result.setRating(temp.toString());
-            break;
-          case 9:
-            result.setDuration(temp.toString());
-            break;
-          case 10:
-            // if (temp.charAt(0) == '\"') {
-            result.setListedIn(temp.toString().split(", "));
-            // } else {
-            // result.setListedIn(temp.toString());
-            // }
-            break;
-          case 11:
-            result.setDescription(temp.toString());
-            break;
-          default:
-            System.out.println("shouldnt reach here");
-            break;
+        case 0:
+          result.setShowId(temp.toString());
+          break;
+        case 1:
+          result.setType(temp.toString());
+          break;
+        case 2:
+          result.setTitle(temp.toString());
+          break;
+        case 3:
+          result.setDirector(temp.toString());
+          break;
+        case 4:
+          String cast = temp.toString();
+          result.setCast(cast.trim().split(", "));
+          break;
+        case 5:
+          result.setCountry(temp.toString());
+          break;
+        case 6:
+          if (!isEmpty)
+            result.setDateAdded(temp.toString());
+          break;
+        case 7:
+          result.setReleaseYear(temp.toString());
+          break;
+        case 8:
+          result.setRating(temp.toString());
+          break;
+        case 9:
+          result.setDuration(temp.toString());
+          break;
+        case 10:
+          result.setListedIn(temp.toString().split(", "));
+          break;
+        case 11:
+          result.setDescription(temp.toString());
+          break;
+        default:
+          System.out.println("shouldnt reach here");
+          break;
         }
         temp.setLength(0);
         n++;
@@ -446,232 +436,123 @@ public class shows {
     return lines;
   }
 
-  public static SHOW[] parseFile(String fileName, int n) {
-    SHOW[] result = new SHOW[n];
-    try (InputStream is = new BufferedInputStream(new FileInputStream(fileName))) {
-      byte[] buffer = new byte[8192];
-      int bytesRead;
-      StringBuilder lineBuilder = new StringBuilder();
+  public static Show[] parseFile(String fileName, int n) {
+    Show[] result = new Show[n];
+    try (BufferedReader reader = new BufferedReader(
+      new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8))) {
 
-      int j = -1;
-      while ((bytesRead = is.read(buffer)) != -1) {
-        for (int i = 0; i < bytesRead; i++) {
-          char c = (char) buffer[i];
-          if (c == '\n') {
-            if (j >= 0) {
-              result[j] = parseLine(lineBuilder.toString());
-            }
-            lineBuilder.setLength(0);
-            j++;
-          } else {
-            lineBuilder.append(c);
-          }
-        }
+      String line;
+      int j = 0;
+
+      reader.readLine();
+
+      while ((line = reader.readLine()) != null && j < n) {
+        result[j] = parseLine(line);
+        j++;
       }
 
-      if (lineBuilder.length() > 0) {
-        result[j] = parseLine(lineBuilder.toString());
-      }
     } catch (IOException e) {
       System.err.println("Error reading file: " + e.getMessage());
     }
     return result;
   }
 
-  public static class SequentialList {
-    SHOW[] shows;
-    int n;
-    private static final int MAX_SIZE = 10000;
+  public static class SortLog {
+    double executionTime;
+    long comparisonCount;
 
-    public SequentialList() {
-      this.shows = new SHOW[MAX_SIZE];
-      this.n = 0;
+    public SortLog(double executionTime, long comparisonCount) {
+      this.executionTime = executionTime;
+      this.comparisonCount = comparisonCount;
+    }
+  }
+
+  public static class Hash {
+    private Show[] table;
+    private final int tableSize;
+    private Show[] reTable;
+    public long globalComparisons;
+
+    public Hash(int size) {
+      this.tableSize = size;
+      this.table = new Show[this.tableSize];
+      this.globalComparisons = 0;
     }
 
-    public SequentialList(int size) {
-      this.shows = new SHOW[size];
-      this.n = 0;
-    }
-
-    public boolean insertAt(SHOW s, int pos) {
-      if (pos < 0 || pos > this.n)
-        return false;BBinaryTree {
-    private Node head;
-    private Node tail;
-    private int length;
-    private static long globalComparisons = 0;
-
-    public BinaryTree() {
-      this.head = null;
-      this.tail = null;
-      this.length = 0;
-    }
-
-    public boolean append(Show show) {
-      Node toAdd = new Node(show);
-
-      toAdd.next = null;
-      toAdd.prev = tail;
-
-      if (tail != null) {
-        tail.next = toAdd;
+    private int getAsciiSum(String title) {
+      int sum = 0;
+      for (int i = 0; i < title.length(); i++) {
+        sum += (int) title.charAt(i);
       }
-
-      tail = toAdd;
-
-      if (head == null) {
-        head = toAdd;
-      }
-
-      length++;
-      return true;
+      return sum;
     }
 
-    public Show removeAt(int pos) {
-      if (pos < 0 || pos >= length || head == null) {
-        return new Show();
-      }
-
-      Node toRemove;
-
-      if (pos == 0) {
-        toRemove = head;
-        head = toRemove.next;
-        if (head != null) {
-          head.prev = null;
-        } else {
-          tail = null;
-        }
-      } else if (pos == length - 1) {
-        toRemove = tail;
-        tail = toRemove.prev;
-        if (tail != null) {
-          tail.next = null;
-        } else {
-          head = null;
-        }
-      } else {
-        Node curr = head;
-        for (int i = 0; i < pos; i++) {
-          curr = curr.next;
-        }
-        toRemove = curr;
-        toRemove.prev.next = toRemove.next;
-        toRemove.next.prev = toRemove.prev;
-      }
-
-      Show removedShow = toRemove.data.clone();
-      length--;
-      return removedShow;
+    private int hash(String title) {
+      return getAsciiSum(title) % tableSize;
     }
 
-    public Show removeAtStart() {
-      return removeAt(0);
+    private int rehash(String title) {
+      return (getAsciiSum(title) + 1) % tableSize;
     }
 
-    public Show remove() {
-      return removeAt(length - 1);
-    }
-
-    // Print the list
-    public void print() {
-      Node curr = head;
-      while (curr != null) {
-        System.out.println(curr.data.print());
-        curr = curr.next;
-      }
-    }
-
-    public int getLength() {
-      return length;
-    }
-
-    private static int compareShowsByTitle(Show a, Show b) {
-      globalComparisons++;
-      return a.getTitle().compareToIgnoreCase(b.getTitle());
-    }
-
-    private static int compareShows(Show a, Show b) {
-      globalComparisons++;
-      int res = a.date_added.compareTo(b.date_added);
-      if (res != 0)
-        return res;
-      return a.getTitle().compareToIgnoreCase(b.getTitle());
-    }
-
-    private static void swapShows(Node a, Node b) {
-      Show temp = a.data;
-      a.data = b.data;
-      b.data = temp;
-    }
-
-    private Node partitionListSort(Node low, Node high) {
-      if (low == null || high == null || low == high) {
-        return low;
-      }
-
-      Show pivot = high.data;
-      Node i = low.prev;
-
-      for (Node j = low; j != high; j = j.next) {
-        if (compareShows(j.data, pivot) <= 0) {
-          i = (i == null) ? low : i.next;
-          swapShows(i, j);
-        }
-      }
-
-      i = (i == null) ? low : i.next;
-      swapShows(i, high);
-
-      return i;
-    }
-
-    private void quicksortRecursive(Node low, Node high) {
-      if (low != null && high != null && low != high && low != high.next) {
-        Node pivot = partitionListSort(low, high);
-
-        if (pivot != null && pivot.prev != null) {
-          quicksortRecursive(low, pivot.prev);
-        }
-        if (pivot != null && pivot.next != null) {
-          quicksortRecursive(pivot.next, high);
-        }
-      }
-    }
-
-    private Node getLastNode() {
-      Node curr = head;
-      while (curr != null && curr.next != null) {
-        curr = curr.next;
-      }
-      return curr;
-    }
-
-    public void quicksortList() {
-      if (head == null || length <= 1) {
+    public void insert(Show show) {
+      if (show == null || show.getTitle() == null) {
         return;
       }
 
+      int pos = hash(show.getTitle());
+
+      if (table[pos] == null) {
+        table[pos] = show;
+      } else {
+        int count = 0;
+        int rehashPos = rehash(show.getTitle());
+        if (table[rehashPos] == null) {
+          table[rehashPos] = show;
+        }
+      }
+    }
+
+    public boolean search(String title) {
       globalComparisons = 0;
       long startTime = System.nanoTime();
 
-      Node last = getLastNode();
-      quicksortRecursive(head, last);
+      boolean res = do_search(title);
 
       long endTime = System.nanoTime();
       double executionTime = (endTime - startTime) / 1_000_000_000.0;
 
       SortLog log = new SortLog(executionTime, globalComparisons);
       logSortPerformance(log);
+      return res;
+    }
+
+    private boolean do_search(String title) {
+      int pos = hash(title);
+      System.out.printf(" (Posicao: %d)", pos);
+
+      if (table[pos] != null) {
+        globalComparisons++;
+        if (table[pos].getTitle().equals(title)) {
+          return true;
+        }
+      }
+
+      int rehashPos = rehash(title);
+      if (table[rehashPos] != null) {
+        globalComparisons++;
+        if (table[rehashPos].getTitle().equals(title)) {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     private void logSortPerformance(SortLog log) {
-      String LOG_FILE_NAME = "875628_quicksort.txt";
+      String LOG_FILE_NAME = "875628_hashRehash.txt";
 
       try (PrintWriter writer = new PrintWriter(new FileWriter(LOG_FILE_NAME))) {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
         writer.printf("875628\t%d\t%.6f\n", log.comparisonCount, log.executionTime);
       } catch (IOException e) {
         System.out.println("Warning: Could not open log file");
@@ -682,4 +563,32 @@ public class shows {
   public static void doQuestion(Show[] shows) {
     Scanner input = new Scanner(System.in);
     String line = input.nextLine();
-    BinaryTree list = new BinaryTreew BinaryTree
+
+    Hash hashTable = new Hash(21);
+
+    do {
+      int sid = Integer.parseInt(line.substring(1));
+      if (sid - 1 < shows.length) {
+        hashTable.insert(shows[sid - 1].clone());
+      }
+      line = input.nextLine();
+    } while (!line.equals("FIM"));
+
+    line = input.nextLine();
+    do {
+      System.out.printf(" %s\n", hashTable.search(line) ? "SIM" : "NAO");
+      line = input.nextLine();
+    } while (!line.equals("FIM"));
+
+    input.close();
+  }
+
+  public static void main(String[] args) {
+
+    String showFile = "/tmp/disneyplus.csv";
+
+    long n = countLines(showFile);
+    Show[] shows = parseFile(showFile, (int) n);
+    doQuestion(shows);
+  }
+}
