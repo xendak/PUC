@@ -1,5 +1,4 @@
 const std = @import("std");
-const raylib_build = @import("raylib");
 
 pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
@@ -8,7 +7,7 @@ pub fn build(b: *std.Build) void {
     const exe = b.addExecutable(.{
         .name = "btree",
         .root_module = b.createModule(.{
-            // .root_source_file = b.path("src/example.zig"),
+            // .root_source_file = b.path(""),
             .target = target,
             .optimize = optimize,
         }),
@@ -19,20 +18,18 @@ pub fn build(b: *std.Build) void {
     b.installArtifact(exe);
 
     //--------------------------------------------------------------------------------------
-    const raylib_dep = b.dependency("raylib", .{
+    const raylib_dep = b.dependency("raylib_zig", .{
         .target = target,
         .optimize = optimize,
-        .shared = true,
-        .linux_display_backend = .Wayland,
     });
-    const raylib = raylib_dep.artifact("raylib");
 
-    const raygui_dep = b.dependency("raygui", .{});
+    const raylib = raylib_dep.module("raylib"); // main raylib module
+    const raygui = raylib_dep.module("raygui"); // raygui module
+    const raylib_artifact = raylib_dep.artifact("raylib"); // raylib C library`
 
-    raylib_build.addRaygui(b, raylib, raygui_dep, .{ .linux_display_backend = .Wayland });
-
-    exe.linkLibrary(raylib);
-    b.installArtifact(raylib);
+    exe.linkLibrary(raylib_artifact);
+    exe.root_module.addImport("raylib", raylib);
+    exe.root_module.addImport("raygui", raygui);
     //--------------------------------------------------------------------------------------
 
     const run_cmd = b.addRunArtifact(exe);
