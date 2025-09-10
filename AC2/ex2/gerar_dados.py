@@ -6,11 +6,8 @@ import sys
 import statistics
 from typing import List, Dict
 
-# --- Configurações Globais do Experimento ---
-# Número de vezes que cada comando será executado para calcular a média
 NUM_AVERAGE_RUNS = 3 
 
-# --- Configurações para a Atividade 01 ---
 ATIV1_SOURCE = "1.c"
 ATIV1_CSV_OUTPUT = "ativ1.csv"
 ATIV1_PARAMS = {
@@ -21,21 +18,19 @@ ATIV1_PARAMS = {
     'OPTIMIZATION': ['-O0', '-O2']
 }
 
-# --- Configurações para a Atividade 02 ---
 ATIV2_SOURCE = "2.c"
 ATIV2_CSV_OUTPUT = "ativ2.csv"
 ATIV2_PARAMS = {
     'mode': ['strong', 'weak'],
     'N0': [1048576, 2097152],
-    # Testa com 1, 2, 4, 8, 16 threads
+    # 1, 2, 4, 8, 16 threads
     'MAX_POW_THREADS': [4],
     'REPEAT': [2],
     'WORK': [64]
 }
 
 
-def compilar_c(source_file: str, output_name: str, flags: List[str] = []):
-    """Compila um arquivo C usando gcc."""
+def compile_code(source_file: str, output_name: str, flags: List[str] = []):
     cmd = ["gcc", source_file, "-o", output_name, "-lm"] + flags
     print(f"Compilando: {' '.join(cmd)}")
     try:
@@ -46,7 +41,6 @@ def compilar_c(source_file: str, output_name: str, flags: List[str] = []):
         sys.exit(1)
 
 def run_activity1():
-    """Executa os testes para a Atividade 01, calcula a média e gera o CSV."""
     print("\n--- Iniciando Atividade 01 (com cálculo de média) ---")
     
     header = ['N', 'REPEAT', 'STRIDE', 'MODE', 'Optimization', 'Avg_Time_s', 'Std_Dev_s']
@@ -57,7 +51,7 @@ def run_activity1():
 
         for opt_level in ATIV1_PARAMS['OPTIMIZATION']:
             executable = f"exe01_{opt_level.replace('-', '')}"
-            compilar_c(ATIV1_SOURCE, executable, [opt_level])
+            compile_code(ATIV1_SOURCE, executable, [opt_level])
 
             for n in ATIV1_PARAMS['N']:
                 for repeat in ATIV1_PARAMS['REPEAT']:
@@ -90,7 +84,6 @@ def run_activity1():
     print(f"--- Atividade 01 concluída. Resultados salvos em {ATIV1_CSV_OUTPUT} ---")
 
 def run_activity2():
-    """Executa os testes para a Atividade 02, calcula a média e gera o CSV."""
     print("\n--- Iniciando Atividade 02 (com cálculo de média) ---")
     
     header = [
@@ -100,7 +93,7 @@ def run_activity2():
     ]
     
     executable = "exe02_ativ2"
-    compilar_c(ATIV2_SOURCE, executable, ["-O2", "-fopenmp"])
+    compile_code(ATIV2_SOURCE, executable, ["-O2", "-fopenmp"])
 
     with open(ATIV2_CSV_OUTPUT, 'w', newline='') as f:
         writer = csv.writer(f)
@@ -114,7 +107,6 @@ def run_activity2():
                             cmd = [f"./{executable}", mode, str(n0), str(max_pow), str(repeat), str(work)]
                             print(f"Avaliando configuração: {' '.join(cmd)}")
 
-                            # Estrutura para agregar resultados: {num_threads: [[t_best_run1, speedup_run1, ...], [t_best_run2, ...]]}
                             results_aggregator: Dict[int, List[List[float]]] = {}
 
                             for i in range(NUM_AVERAGE_RUNS):
@@ -138,7 +130,6 @@ def run_activity2():
                                 except subprocess.TimeoutExpired:
                                     print("  -> ERRO: O comando demorou demais e foi interrompido.")
                             
-                            # Calcular a média para cada grupo de threads
                             print("  -> CÁLCULO DAS MÉDIAS:")
                             for threads, collected_runs in sorted(results_aggregator.items()):
                                 if not collected_runs: continue
@@ -150,7 +141,6 @@ def run_activity2():
                                 avg_metrics = [statistics.mean(col) for col in transposed]
                                 stdev_metrics = [statistics.stdev(col) if len(col) > 1 else 0.0 for col in transposed]
                                 
-                                # N e checksum são constantes, pegamos da última execução
                                 N_val = int(subprocess.run(cmd, check=True, capture_output=True, text=True).stdout.strip().split('\n')[-1].split()[1])
                                 
                                 writer.writerow([
@@ -168,6 +158,6 @@ if __name__ == "__main__":
         print("ERRO: Certifique-se que os arquivos 'exe02_ativ1.c' e 'exe02_ativ2.c' estão no mesmo diretório.")
         sys.exit(1)
         
-    # run_activity1()
+    run_activity1()
     run_activity2()
     print("\nTodos os testes foram concluídos!")
