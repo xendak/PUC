@@ -5,5 +5,7 @@ main:
   add s8, s11, a0
   addi t0, zero, 4
   ecall
-  add  s11, s8, a0
+  xor a0, s8, a0
+  addi t0, zero, 1
+  ecall
   ret

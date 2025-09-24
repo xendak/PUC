@@ -6,3 +6,4 @@ main:
   addi t0, zero, 1
   ecall
   ret
+
