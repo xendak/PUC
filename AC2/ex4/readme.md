@@ -36,7 +36,7 @@ O montador é um "tradutor", ele cria uma tabela de símbolos, onde cada símbol
   o que está dito no comentário. Você deve usar a instrução j para fazer o loop
   infinito.
 
-```s
+```riscv
 main:
   # Le um numero do teclado e armazena em a0
   addi, t0, zero, 4
@@ -59,7 +59,7 @@ main:
 - Altere seu programa para executar enquanto o número digitado for diferente de
   zero. Você deve usar a instrução beq para fazer o loop.
 
-```s
+```riscv
 main:
   addi t0, zero, 4
   ecall
@@ -80,7 +80,7 @@ para sair do programa. Altere seu programa para não imprimir o resultado da som
 com 2 se o número digitado for zero. Não se esqueça de atualizar o comentário ou
 colocar novos se achar conveniente.
 
-```s
+```riscv
 main:
   addi t0, zero, 4
   ecall
@@ -99,7 +99,7 @@ end:
 - Altere seu programa para que ele execute exatamente 10 vezes. Você deve usar a
   instrução bge para fazer o loop.
 
-```s
+```riscv
 loop:
   bge t1, s1, end
   addi t1, t1, 1
@@ -125,7 +125,7 @@ end:
 - Altere seu programa para que ele leia de 2 em 2 números e sempre imprima o
   maior deles. Você deve encerrar quando qualquer um dos dois for zero.
 
-```s
+```riscv
 main:
   addi t0, zero, 4
   ecall
@@ -157,7 +157,7 @@ end:
 
 ## Desafio
 
-```s
+```riscv
 main:
     addi t0, zero, 4
     ecall

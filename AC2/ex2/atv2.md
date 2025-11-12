@@ -99,17 +99,17 @@ interno definido como 20. As tabelas e gráficos apresentam os valores médios.
 _Gráfico 1: Demonstração do aumento drástico do tempo de execução com o aumento
 do STRIDE, evidenciando o custo dos cache misses._
 
-![localImage](./img/1_ativ1_impacto_stride.png)
+![localImage](./assets/1_ativ1_impacto_stride.png)
 
 _Gráfico 2: Comparação direta entre os modos de execução, mostrando o benefício
 da versão "branchless" (Modo 1) e da aritmética inteira (Modo 2)._
 
-![localImage](./img/2_ativ1_comparacao_modos.png)
+![localImage](./assets/2_ativ1_comparacao_modos.png)
 
 _Gráfico 3: Visualização do ganho massivo de desempenho ao compilar com a flag
 -O2 em comparação com -O0._
 
-![localImage](./img/3_ativ1_impacto_otimizacao.png)
+![localImage](./assets/3_ativ1_impacto_otimizacao.png)
 
 #### b) Acessos com STRIDE=1 são melhores para cache do que STRIDE=16?
 
@@ -222,17 +222,17 @@ sincronização se tornarem mais significativos.
 _Gráfico 4: Curva de speedup para um problema de tamanho fixo. Note como a curva
 se afasta da linha ideal com mais threads._
 
-![localImage](./img/4_ativ2_strong_scaling_speedup.png)
+![localImage](./assets/atv2_strong_scaling_speedup.png)
 
 _Gráfico 5: A eficiência cai consideravelmente à medida que o número de threads
 aumenta, mostrando o custo do overhead._
 
-![localImage](./img/5_ativ2_strong_scaling_eficiencia.png)
+![localImage](./assets/atv2_strong_scaling_eficiencia.png)
 
 _Gráfico 6: O tempo de execução se mantém quase constante mesmo com o aumento do
 problema e do número de threads, demonstrando excelente escalabilidade fraca._
 
-![localImage](./img/6_ativ2_weak_scaling_tempo.png)
+![localImage](./assets/atv2_weak_scaling_tempo.png)
 
 #### b) Execuções com mais threads são sempre melhores do que com menos threads em termos de tempo de execução? E eficiência?
 
