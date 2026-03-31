@@ -1,0 +1,11 @@
+*/**
+
+!flake.nix
+!flake.lock
+!*/lib/
+!*/lib/**
+
+.settings/
+android/
+
+!*/pubspec.yaml
