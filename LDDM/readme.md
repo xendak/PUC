@@ -8,8 +8,10 @@ assignments. Each directory represents a specific exercise.
 Each assignment is contained within its own Flutter project folder, following
 the naming convention: `XX_assignment_name`.
 
-- **`(01_login_screen/)[./01_login_screen]`**: Assignment 1.
-- **`(02_crud_screen/)[./02_crud_screen]`**: Assignment 2.
+- **`(01_login_screen/)[./01_login_screen]`**: Exercise 1.
+- **`(02_crud_screen/)[./02_crud_screen]`**: Exercise 2.
+- **`(03_navigation/)[./03_navigation]`**: Exercise 3.
+- **`(04_alert_dialog/)[./04_alert_dialog]`**: Exercise 4.
 
 ---
 
@@ -73,6 +75,6 @@ flutter create 03_new_assignment_name
 
 ## Notes
 
-- **Assets:** Most projects use custom fonts or images located in the `assets/`
+- **Assets:** Projects may use custom fonts or images located in the `assets/`
   folder of their respective directories.
 - **Lib Folder:** The core logic and UI code reside in `lib/main.dart`.
