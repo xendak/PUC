@@ -1,2 +1,16 @@
 .envrc
 TI/*
+
+!TI/**/
+
+TI/**/*
+
+!TI/**/lib/**/*.dart
+
+!TI/**/src/**/*.c
+!TI/**/src/**/*.h
+
+!*.nix
+!flake.lock
+
+!TI/**/assets/**
