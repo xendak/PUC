@@ -12,6 +12,10 @@ the naming convention: `XX_assignment_name`.
 - **`(02_crud_screen/)[./02_crud_screen]`**: Exercise 2.
 - **`(03_navigation/)[./03_navigation]`**: Exercise 3.
 - **`(04_alert_dialog/)[./04_alert_dialog]`**: Exercise 4.
+- **`(05_web_api/)[./05_web_api]`**: Exercise 5.
+- **`(06_sqlite/)[./06_sqlite]`**: Exercise 6.
+
+- **`(tp_01/)[./tp_01]`**: TP 1.
 
 ---
 
